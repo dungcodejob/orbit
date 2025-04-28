@@ -1,15 +1,9 @@
-import {
-    Calculator,
-    Calendar,
-    CreditCard,
-    Search,
-    Settings,
-    Smile,
-    User,
-} from 'lucide-react';
+import { Search } from 'lucide-react';
 
+import { CommandKeyBox } from '@/components/command';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
 import {
-    Command,
     CommandDialog,
     CommandEmpty,
     CommandGroup,
@@ -19,73 +13,113 @@ import {
     CommandSeparator,
     CommandShortcut,
 } from '@/components/ui/command';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogFooter, DialogTrigger } from '@/components/ui/dialog';
-import { RiSparklingLine } from '@remixicon/react';
+import {
+    RiArrowDownLine,
+    RiArrowUpLine,
+    RiBankCardLine,
+    RiBankLine,
+    RiCornerDownLeftLine,
+    RiFolderOpenLine,
+    RiHistoryLine,
+    RiSparklingLine,
+} from '@remixicon/react';
 import { useMemo } from 'react';
 
-
 export function SearchMenu() {
+  const smartPromptExamples = useMemo(
+    () => [
+      'Doanh thu hôm nay là bao nhiêu?',
+      'So sánh doanh thu tháng này và tháng trước',
+      'Mặt hàng nào đang sắp hết hàng?',
+      'Báo cáo doanh thu hàng ngày trong tuần này',
+      'Dự đoán doanh thu cho tuần tới dựa trên dữ liệu hiện tại',
+    ],
+    [],
+  );
 
-    const smartPromptExamples = useMemo(
-        () => [
-          'Doanh thu hôm nay là bao nhiêu?',
-          'So sánh doanh thu tháng này và tháng trước',
-          'Mặt hàng nào đang sắp hết hàng?',
-          'Báo cáo doanh thu hàng ngày trong tuần này',
-          'Dự đoán doanh thu cho tuần tới dựa trên dữ liệu hiện tại',
-        ],
-        [],
-      );
+  return (
+    <>
+      <Button variant="ghost" size="icon">
+        <Search />
+      </Button>
+      <CommandDialog open={true} >
+        <CommandInput className='w-lg' placeholder="Type a command or search..." />
 
-    return (
-       <>
-                       <Button variant="ghost" size="icon">
-                    <Search />
-                </Button>
-                <CommandDialog open={true}>
-                    <CommandInput placeholder="Type a command or search..." />
+        <CommandList className='overflow-visible max-h-[calc(100vh-10rem)]'>
+          <CommandEmpty>No results found.</CommandEmpty>
+          <CommandGroup heading="Searching for" className="!py-3">
+            <div className="flex gap-2 mt-1.5">
+              <Badge variant="outline">Outline</Badge>
+              <Badge variant="outline">Outline</Badge>
+              <Badge variant="outline">Outline</Badge>
+              <Badge variant="outline">Outline</Badge>
+            </div>
+          </CommandGroup>
+          <CommandSeparator />
+          <CommandGroup heading="Suggestions" className="!py-3">
+            <div className="mt-1.5">
+              {smartPromptExamples.map((example) => (
+                <CommandItem key={example} className="!py-2.5">
+                  <RiSparklingLine />
+                  <span>{example}</span>
+                </CommandItem>
+              ))}
+            </div>
+          </CommandGroup>
+          <CommandSeparator />
+          <CommandGroup heading="Results (4)" className="!py-3">
+            <div className="mt-1.5">
+              <CommandItem>
+                <RiHistoryLine />
+                <span>Search recent transactions </span>
+                <CommandShortcut>⌘P</CommandShortcut>
+              </CommandItem>
+              <CommandItem>
+                <RiBankCardLine />
+                <span>View your cards</span>
+                <CommandShortcut>⌘B</CommandShortcut>
+              </CommandItem>
+              <CommandItem>
+                <RiFolderOpenLine />
+                <span>View statements for Ops / Payroll</span>
+                <CommandShortcut>⌘S</CommandShortcut>
+              </CommandItem>
+              <CommandItem>
+                <RiBankLine />
+                <span>Go to Ops / Payroll</span>
+                <CommandShortcut>⌘S</CommandShortcut>
+              </CommandItem>
+            </div>
+          </CommandGroup>
+          <CommandSeparator />
+          <CommandGroup className="!py-3">
+              <div className='flex justify-between items-center'>
+              <div className="hidden gap-3 md:flex  px-2">
+              <div className="flex items-center gap-2">
+                <CommandKeyBox>
+                  <RiArrowUpLine className="size-4" />
+                </CommandKeyBox>
+                <CommandKeyBox>
+                  <RiArrowDownLine className="size-4" />
+                </CommandKeyBox>
+                <span className="text-xs text-muted-foreground">Navigate</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <CommandKeyBox>
+                  <RiCornerDownLeftLine className="size-4" />
+                </CommandKeyBox>
+                <span className="text-xs text-muted-foreground">Select</span>
+              </div>
+            </div>
 
-                    <CommandList>
-                        <CommandEmpty>No results found.</CommandEmpty>
-                        <CommandGroup heading="Searching for">
-                            <div className='flex gap-2 mt-1.5'>
-                            <Badge variant="outline">Outline</Badge>
-                            <Badge variant="outline">Outline</Badge>
-                            <Badge variant="outline">Outline</Badge>
-                            <Badge variant="outline">Outline</Badge>
-                            </div>
-                        </CommandGroup>
-                        <CommandGroup heading="Suggestions" className='mb-3'>
-                            {smartPromptExamples.map((example) => (
-                                <CommandItem key={example}>
-                                    <RiSparklingLine />
-                                    <span>{example}</span>
-                                </CommandItem>
-                            ))}
-
-                        </CommandGroup>
-                        <CommandSeparator />
-                        <CommandGroup heading="Settings">
-                            <CommandItem>
-                                <User />
-                                <span>Profile</span>
-                                <CommandShortcut>⌘P</CommandShortcut>
-                            </CommandItem>
-                            <CommandItem>
-                                <CreditCard />
-                                <span>Billing</span>
-                                <CommandShortcut>⌘B</CommandShortcut>
-                            </CommandItem>
-                            <CommandItem>
-                                <Settings />
-                                <span>Settings</span>
-                                <CommandShortcut>⌘S</CommandShortcut>
-                            </CommandItem>
-                        </CommandGroup>
-                    </CommandList>
-                </CommandDialog>
-       </>
-    );
+            <div className="text-right text-xs text-muted-foreground">
+              Not what you’re looking for? Try the
+              <span className="text-primary pl-1">Help Center</span>
+            </div>
+              </div>
+          </CommandGroup>
+        </CommandList>
+      </CommandDialog>
+    </>
+  );
 }

@@ -32,7 +32,7 @@ export function SiteHeader() {
       </Breadcrumb>
       <nav className="flex items-center gap-0.5">
         <SearchMenu />
-       
+
         <ModeSwitcher />
       </nav>
     </header>
