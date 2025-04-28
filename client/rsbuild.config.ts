@@ -1,6 +1,6 @@
-import { defineConfig } from "@rsbuild/core";
-import { pluginReact } from "@rsbuild/plugin-react";
-import { TanStackRouterRspack } from "@tanstack/router-plugin/rspack";
+import { defineConfig } from '@rsbuild/core';
+import { pluginReact } from '@rsbuild/plugin-react';
+import { TanStackRouterRspack } from '@tanstack/router-plugin/rspack';
 
 export default defineConfig({
   plugins: [pluginReact()],
@@ -8,9 +8,9 @@ export default defineConfig({
     rspack: {
       plugins: [
         TanStackRouterRspack({
-          target: "react",
-          virtualRouteConfig: "./src/routes.ts",
-          routesDirectory: "./src",
+          target: 'react',
+          virtualRouteConfig: './src/routes.ts',
+          routesDirectory: './src',
           autoCodeSplitting: true,
         }),
       ],

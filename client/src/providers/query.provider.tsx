@@ -1,6 +1,6 @@
-import { MINUTE } from "@/constants/default-values";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { MINUTE } from '@/constants/default-values';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 //TODO: learn about query client default option
 export const queryClient = new QueryClient({

@@ -1,3 +1,3 @@
-import { ReactNode } from "react";
+import { ReactNode } from 'react';
 
 export type PropsWithChildren<P> = P & { children?: ReactNode };

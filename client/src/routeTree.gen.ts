@@ -10,85 +10,117 @@
 
 // Import Routes
 
-import { Route as rootRoute } from './root'
-import { Route as AboutImport } from './about'
-import { Route as SindexImport } from './sindex'
+import { Route as rootRoute } from './root';
+import { Route as FeaturesShellScreensLayoutImport } from './features/shell/screens/Layout';
+import { Route as SindexImport } from './sindex';
+import { Route as AboutImport } from './about';
 
 // Create/Update Routes
 
-const AboutRoute = AboutImport.update({
-  id: '/about',
-  path: '/about',
-  getParentRoute: () => rootRoute,
-} as any)
+const FeaturesShellScreensLayoutRoute = FeaturesShellScreensLayoutImport.update(
+  {
+    id: '/_(authenticated)',
+    getParentRoute: () => rootRoute,
+  } as any,
+);
 
 const SindexRoute = SindexImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRoute,
-} as any)
+} as any);
+
+const AboutRoute = AboutImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => FeaturesShellScreensLayoutRoute,
+} as any);
 
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
     '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof SindexImport
-      parentRoute: typeof rootRoute
-    }
-    '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutImport
-      parentRoute: typeof rootRoute
-    }
+      id: '/';
+      path: '/';
+      fullPath: '/';
+      preLoaderRoute: typeof SindexImport;
+      parentRoute: typeof rootRoute;
+    };
+    '/_(authenticated)': {
+      id: '/_(authenticated)';
+      path: '';
+      fullPath: '';
+      preLoaderRoute: typeof FeaturesShellScreensLayoutImport;
+      parentRoute: typeof rootRoute;
+    };
+    '/_(authenticated)/about': {
+      id: '/_(authenticated)/about';
+      path: '/about';
+      fullPath: '/about';
+      preLoaderRoute: typeof AboutImport;
+      parentRoute: typeof FeaturesShellScreensLayoutImport;
+    };
   }
 }
 
 // Create and export the route tree
 
+interface FeaturesShellScreensLayoutRouteChildren {
+  AboutRoute: typeof AboutRoute;
+}
+
+const FeaturesShellScreensLayoutRouteChildren: FeaturesShellScreensLayoutRouteChildren =
+  {
+    AboutRoute: AboutRoute,
+  };
+
+const FeaturesShellScreensLayoutRouteWithChildren =
+  FeaturesShellScreensLayoutRoute._addFileChildren(
+    FeaturesShellScreensLayoutRouteChildren,
+  );
+
 export interface FileRoutesByFullPath {
-  '/': typeof SindexRoute
-  '/about': typeof AboutRoute
+  '/': typeof SindexRoute;
+  '': typeof FeaturesShellScreensLayoutRouteWithChildren;
+  '/about': typeof AboutRoute;
 }
 
 export interface FileRoutesByTo {
-  '/': typeof SindexRoute
-  '/about': typeof AboutRoute
+  '/': typeof SindexRoute;
+  '': typeof FeaturesShellScreensLayoutRouteWithChildren;
+  '/about': typeof AboutRoute;
 }
 
 export interface FileRoutesById {
-  __root__: typeof rootRoute
-  '/': typeof SindexRoute
-  '/about': typeof AboutRoute
+  __root__: typeof rootRoute;
+  '/': typeof SindexRoute;
+  '/_(authenticated)': typeof FeaturesShellScreensLayoutRouteWithChildren;
+  '/_(authenticated)/about': typeof AboutRoute;
 }
 
 export interface FileRouteTypes {
-  fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about'
-  fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about'
-  id: '__root__' | '/' | '/about'
-  fileRoutesById: FileRoutesById
+  fileRoutesByFullPath: FileRoutesByFullPath;
+  fullPaths: '/' | '' | '/about';
+  fileRoutesByTo: FileRoutesByTo;
+  to: '/' | '' | '/about';
+  id: '__root__' | '/' | '/_(authenticated)' | '/_(authenticated)/about';
+  fileRoutesById: FileRoutesById;
 }
 
 export interface RootRouteChildren {
-  SindexRoute: typeof SindexRoute
-  AboutRoute: typeof AboutRoute
+  SindexRoute: typeof SindexRoute;
+  FeaturesShellScreensLayoutRoute: typeof FeaturesShellScreensLayoutRouteWithChildren;
 }
 
 const rootRouteChildren: RootRouteChildren = {
   SindexRoute: SindexRoute,
-  AboutRoute: AboutRoute,
-}
+  FeaturesShellScreensLayoutRoute: FeaturesShellScreensLayoutRouteWithChildren,
+};
 
 export const routeTree = rootRoute
   ._addFileChildren(rootRouteChildren)
-  ._addFileTypes<FileRouteTypes>()
+  ._addFileTypes<FileRouteTypes>();
 
 /* ROUTE_MANIFEST_START
 {
@@ -97,14 +129,21 @@ export const routeTree = rootRoute
       "filePath": "root.tsx",
       "children": [
         "/",
-        "/about"
+        "/_(authenticated)"
       ]
     },
     "/": {
       "filePath": "./sindex.tsx"
     },
-    "/about": {
-      "filePath": "./about.tsx"
+    "/_(authenticated)": {
+      "filePath": "./features/shell/screens/Layout.tsx",
+      "children": [
+        "/_(authenticated)/about"
+      ]
+    },
+    "/_(authenticated)/about": {
+      "filePath": "./about.tsx",
+      "parent": "/_(authenticated)"
     }
   }
 }
