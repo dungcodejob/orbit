@@ -16,9 +16,12 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
+      "@components/": ["./src/components/*"],
       "@assets/*": ["./src/assets/*"],
       "@providers/*": ["./src/types/*"],
-      "@types/*": ["./src/types/*"]
+      "@types/*": ["./src/types/*"],
+      "@hooks/": ["./src/hooks/*"],
+      "@stores/": ["./src/stores/*"]
     },
     /* type checking */
     "strict": true,

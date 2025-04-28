@@ -1,4 +1,4 @@
-import { Language } from '@/types/language';
+import { Language } from '@types';
 import { create } from 'zustand';
 
 type SettingStore = {

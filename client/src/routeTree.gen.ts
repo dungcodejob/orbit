@@ -11,7 +11,7 @@
 // Import Routes
 
 import { Route as rootRoute } from './root';
-import { Route as FeaturesShellScreensLayoutImport } from './features/shell/screens/Layout';
+import { Route as FeaturesShellScreensLayoutImport } from './features/shell/screens/layout';
 import { Route as SindexImport } from './sindex';
 import { Route as AboutImport } from './about';
 
@@ -136,7 +136,7 @@ export const routeTree = rootRoute
       "filePath": "./sindex.tsx"
     },
     "/_(authenticated)": {
-      "filePath": "./features/shell/screens/Layout.tsx",
+      "filePath": "./features/shell/screens/layout.tsx",
       "children": [
         "/_(authenticated)/about"
       ]

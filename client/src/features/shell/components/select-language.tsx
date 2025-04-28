@@ -6,7 +6,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { useSettingStore } from '@/stores';
-import { Language } from '@/types';
+import type { Language } from '@/types';
 import { Avatar, AvatarImage } from '@radix-ui/react-avatar';
 import { RiGlobalLine } from '@remixicon/react';
 
