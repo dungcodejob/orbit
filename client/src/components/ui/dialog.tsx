@@ -46,10 +46,6 @@ function DialogOverlay({
   );
 }
 
-
-
-
-
 function DialogContent({
   className,
   children,
@@ -135,6 +131,5 @@ export {
   DialogOverlay,
   DialogPortal,
   DialogTitle,
-  DialogTrigger
+  DialogTrigger,
 };
-

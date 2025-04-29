@@ -21,6 +21,7 @@ import { NavMain } from './nav-main';
 import { NavProjects } from './nav-projects';
 import { NavUser } from './nav-user';
 import { TeamSwitcher } from './team-switcher';
+import { Separator } from '@/components/ui/separator';
 
 const data = {
   user: {
@@ -157,10 +158,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       <SidebarHeader>
         <TeamSwitcher teams={data.teams} />
       </SidebarHeader>
+      <Separator orientation="horizontal" />
       <SidebarContent>
         <NavMain items={data.navMain} />
         <NavProjects projects={data.projects} />
       </SidebarContent>
+      <Separator orientation="horizontal" />
       <SidebarFooter>
         <NavUser user={data.user} />
       </SidebarFooter>

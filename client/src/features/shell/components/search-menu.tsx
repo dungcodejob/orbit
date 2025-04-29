@@ -1,31 +1,32 @@
 import { Search } from 'lucide-react';
 
-import { CommandKeyBox } from '@/components/command';
+import { CommandKeyBox } from '@/components/command-key-box';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
-    CommandDialog,
-    CommandEmpty,
-    CommandGroup,
-    CommandInput,
-    CommandItem,
-    CommandList,
-    CommandSeparator,
-    CommandShortcut,
+  CommandDialog,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+  CommandSeparator,
+  CommandShortcut,
 } from '@/components/ui/command';
 import {
-    RiArrowDownLine,
-    RiArrowUpLine,
-    RiBankCardLine,
-    RiBankLine,
-    RiCornerDownLeftLine,
-    RiFolderOpenLine,
-    RiHistoryLine,
-    RiSparklingLine,
+  RiArrowDownLine,
+  RiArrowUpLine,
+  RiBankCardLine,
+  RiBankLine,
+  RiCornerDownLeftLine,
+  RiFolderOpenLine,
+  RiHistoryLine,
+  RiSparklingLine,
 } from '@remixicon/react';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 
 export function SearchMenu() {
+  const [isSearchMenuOpen, setSearchMenuOpen] = useState(false);
   const smartPromptExamples = useMemo(
     () => [
       'Doanh thu hôm nay là bao nhiêu?',
@@ -39,13 +40,20 @@ export function SearchMenu() {
 
   return (
     <>
-      <Button variant="ghost" size="icon">
+      <Button
+        variant="ghost"
+        size="icon"
+        onClick={() => setSearchMenuOpen(true)}
+      >
         <Search />
       </Button>
-      <CommandDialog open={true} >
-        <CommandInput className='w-lg' placeholder="Type a command or search..." />
+      <CommandDialog open={isSearchMenuOpen} onOpenChange={setSearchMenuOpen}>
+        <CommandInput
+          className="w-lg"
+          placeholder="Type a command or search..."
+        />
 
-        <CommandList className='overflow-visible max-h-[calc(100vh-10rem)]'>
+        <CommandList className="overflow-visible max-h-[calc(100vh-10rem)]">
           <CommandEmpty>No results found.</CommandEmpty>
           <CommandGroup heading="Searching for" className="!py-3">
             <div className="flex gap-2 mt-1.5">
@@ -93,30 +101,32 @@ export function SearchMenu() {
           </CommandGroup>
           <CommandSeparator />
           <CommandGroup className="!py-3">
-              <div className='flex justify-between items-center'>
+            <div className="flex justify-between items-center">
               <div className="hidden gap-3 md:flex  px-2">
-              <div className="flex items-center gap-2">
-                <CommandKeyBox>
-                  <RiArrowUpLine className="size-4" />
-                </CommandKeyBox>
-                <CommandKeyBox>
-                  <RiArrowDownLine className="size-4" />
-                </CommandKeyBox>
-                <span className="text-xs text-muted-foreground">Navigate</span>
+                <div className="flex items-center gap-2">
+                  <CommandKeyBox>
+                    <RiArrowUpLine className="size-4" />
+                  </CommandKeyBox>
+                  <CommandKeyBox>
+                    <RiArrowDownLine className="size-4" />
+                  </CommandKeyBox>
+                  <span className="text-xs text-muted-foreground">
+                    Navigate
+                  </span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <CommandKeyBox>
+                    <RiCornerDownLeftLine className="size-4" />
+                  </CommandKeyBox>
+                  <span className="text-xs text-muted-foreground">Select</span>
+                </div>
               </div>
-              <div className="flex items-center gap-2">
-                <CommandKeyBox>
-                  <RiCornerDownLeftLine className="size-4" />
-                </CommandKeyBox>
-                <span className="text-xs text-muted-foreground">Select</span>
-              </div>
-            </div>
 
-            <div className="text-right text-xs text-muted-foreground">
-              Not what you’re looking for? Try the
-              <span className="text-primary pl-1">Help Center</span>
-            </div>
+              <div className="text-right text-xs text-muted-foreground">
+                Not what you’re looking for? Try the
+                <span className="text-primary pl-1">Help Center</span>
               </div>
+            </div>
           </CommandGroup>
         </CommandList>
       </CommandDialog>

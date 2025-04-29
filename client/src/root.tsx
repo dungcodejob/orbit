@@ -13,7 +13,7 @@ function RootComponent() {
     <React.Fragment>
       <Providers>
         <Outlet />
-        <TanStackRouterDevtools position="bottom-left" />
+        {/* <TanStackRouterDevtools position="bottom-left" /> */}
       </Providers>
     </React.Fragment>
   );
