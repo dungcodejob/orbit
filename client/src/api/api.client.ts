@@ -13,7 +13,7 @@ const apiClient = axios.create({
 
 apiClient.interceptors.request.use(
   async (config) => {
-    const { isAuthenticated, token } = useAuthStore();
+    const { isAuthenticated, tokens: token } = useAuthStore();
 
     const controller = new AbortController();
     if (!isAuthenticated || config.url?.includes('/system/v2/login')) {
@@ -35,4 +35,6 @@ apiClient.interceptors.request.use(
     return Promise.reject(error);
   },
 );
+
+export { apiClient }
 

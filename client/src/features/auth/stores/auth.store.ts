@@ -1,26 +1,25 @@
 import { create } from "zustand";
 import { LoginCredentials } from "../types/login-credentials";
+import { authApi } from "../services";
+import { AuthResult } from "../types";
 
 type AuthState = {
     isAuthenticated: false;
-    token: null;
+    tokens: null;
 } | {
     isAuthenticated: true;
-    token: {
-        access: string;
-        refresh: string;
-    }
+    tokens: AuthResult['tokens']
 }
 
 type AuthMethod = {
-    login: (data: LoginCredentials) => void;
-    logout: () => void;
+    login: (data: LoginCredentials) => Promise<void>;
+    logout: () => Promise<void>;
 }
 type AuthStore = AuthState & AuthMethod;
 
 export const useAuthStore = create<AuthStore>((set) => ({
     isAuthenticated: false,
-    token: null,
-    login: (data) => set({ isAuthenticated: true,  }),
-    logout: () => set({ isAuthenticated: false, user: null, token: null }),
-  }));
+    tokens: null,
+    login: (data) => authApi.login(data).then((res) => set({ isAuthenticated: true, tokens: res.data.tokens })),
+    logout: () => authApi.logout().then(() => set({ isAuthenticated: false, tokens: null })),
+}));
