@@ -28,6 +28,7 @@
     "@tanstack/react-query-devtools": "^5.74.6",
     "@tanstack/react-router": "^1.117.1",
     "@tanstack/virtual-file-routes": "^1.115.0",
+    "axios": "^1.9.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
