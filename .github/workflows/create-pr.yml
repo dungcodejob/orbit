@@ -10,6 +10,10 @@ on:
         description: "Description for the Pull Request"
         required: false
 
+permissions:
+  pull-requests: write
+  contents: write
+
 jobs:
   create-pull-request:
     runs-on: ubuntu-latest
