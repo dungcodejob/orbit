@@ -3,5 +3,9 @@ export const QUERY_KEYS = {
     LOGIN: 'auth.login',
     LOGOUT: 'auth.logout',
   },
-  // Add more query/mutation keys here as needed
+  ACCOUNT: {
+    GET: 'account.get',
+    ME: 'account.me',
+  },
+
 } as const; 
