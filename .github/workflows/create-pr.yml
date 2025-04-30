@@ -12,7 +12,7 @@ on:
 
 jobs:
   create-pull-request:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     env:
       BASE_BRANCH: develop
       GH_TOKEN: ${{ secrets.GH_TOKEN }}
