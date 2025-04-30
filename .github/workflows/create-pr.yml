@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       BASE_BRANCH: develop
-      GH_TOKEN: ${{ github.token }}
+      GH_TOKEN: ${{ secrets.GH_TOKEN }}
     steps:
       - name: Check out code
         uses: actions/checkout@v3
