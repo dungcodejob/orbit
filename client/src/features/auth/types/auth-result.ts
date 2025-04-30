@@ -1,9 +1,8 @@
-
 export type AuthResult = {
-    tokens: Tokens
-}
+  tokens: Tokens;
+};
 
 type Tokens = {
-    access: string;
-    refresh: string;
-}
+  access: string;
+  refresh: string;
+};

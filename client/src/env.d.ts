@@ -1,4 +1,12 @@
 /// <reference types="@rsbuild/core/types" />
 
 
-declare const PUBLIC_FOO: string;
+
+interface ImportMetaEnv {
+    // import.meta.env.PUBLIC_FOO
+    readonly PUBLIC_API_URL: string;
+  }
+  
+  interface ImportMeta {
+    readonly env: ImportMetaEnv;
+  }

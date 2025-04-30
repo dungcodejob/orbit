@@ -1,4 +1,3 @@
-import env from '@/env';
 import { useAuthStore } from '@/features/auth/stores';
 import axios from 'axios';
 
@@ -7,21 +6,20 @@ const apiClient = axios.create({
     'Content-Type': 'application/json',
   },
   withCredentials: true,
-  baseURL: `${env.PUBLIC_API_URL}/api/`,
+  baseURL: `${import.meta.env.PUBLIC_API_URL}`,
 });
-
 
 apiClient.interceptors.request.use(
   async (config) => {
-    const { isAuthenticated, tokens: token } = useAuthStore();
+    const { isAuthenticated, tokens } = useAuthStore.getState();
 
     const controller = new AbortController();
     if (!isAuthenticated || config.url?.includes('/system/v2/login')) {
       return config;
     }
 
-    if (token.access) {
-      config.headers.Authorization = `Bearer ${token.access}`;
+    if (tokens?.access) {
+      config.headers.Authorization = `Bearer ${tokens.access}`;
       return config;
     }
 
@@ -36,5 +34,4 @@ apiClient.interceptors.request.use(
   },
 );
 
-export { apiClient }
-
+export { apiClient };

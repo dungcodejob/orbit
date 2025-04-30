@@ -10,117 +10,142 @@
 
 // Import Routes
 
-import { Route as rootRoute } from './root';
-import { Route as FeaturesShellScreensLayoutImport } from './features/shell/screens/layout';
-import { Route as SindexImport } from './sindex';
-import { Route as AboutImport } from './about';
+import { Route as rootRoute } from './root'
+import { Route as FeaturesAuthPagesLoginPageImport } from './features/auth/pages/login-page'
+import { Route as FeaturesShellScreensLayoutImport } from './features/shell/screens/layout'
+import { Route as AboutImport } from './about'
+import { Route as FeaturesHomePagesHomeImport } from './features/home/pages/home'
 
 // Create/Update Routes
+
+const FeaturesAuthPagesLoginPageRoute = FeaturesAuthPagesLoginPageImport.update(
+  {
+    id: '/login',
+    path: '/login',
+    getParentRoute: () => rootRoute,
+  } as any,
+)
 
 const FeaturesShellScreensLayoutRoute = FeaturesShellScreensLayoutImport.update(
   {
     id: '/_(authenticated)',
     getParentRoute: () => rootRoute,
   } as any,
-);
-
-const SindexRoute = SindexImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => rootRoute,
-} as any);
+)
 
 const AboutRoute = AboutImport.update({
   id: '/about',
   path: '/about',
   getParentRoute: () => FeaturesShellScreensLayoutRoute,
-} as any);
+} as any)
+
+const FeaturesHomePagesHomeRoute = FeaturesHomePagesHomeImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => FeaturesShellScreensLayoutRoute,
+} as any)
 
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/';
-      path: '/';
-      fullPath: '/';
-      preLoaderRoute: typeof SindexImport;
-      parentRoute: typeof rootRoute;
-    };
     '/_(authenticated)': {
-      id: '/_(authenticated)';
-      path: '';
-      fullPath: '';
-      preLoaderRoute: typeof FeaturesShellScreensLayoutImport;
-      parentRoute: typeof rootRoute;
-    };
+      id: '/_(authenticated)'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof FeaturesShellScreensLayoutImport
+      parentRoute: typeof rootRoute
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof FeaturesAuthPagesLoginPageImport
+      parentRoute: typeof rootRoute
+    }
+    '/_(authenticated)/': {
+      id: '/_(authenticated)/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof FeaturesHomePagesHomeImport
+      parentRoute: typeof FeaturesShellScreensLayoutImport
+    }
     '/_(authenticated)/about': {
-      id: '/_(authenticated)/about';
-      path: '/about';
-      fullPath: '/about';
-      preLoaderRoute: typeof AboutImport;
-      parentRoute: typeof FeaturesShellScreensLayoutImport;
-    };
+      id: '/_(authenticated)/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutImport
+      parentRoute: typeof FeaturesShellScreensLayoutImport
+    }
   }
 }
 
 // Create and export the route tree
 
 interface FeaturesShellScreensLayoutRouteChildren {
-  AboutRoute: typeof AboutRoute;
+  FeaturesHomePagesHomeRoute: typeof FeaturesHomePagesHomeRoute
+  AboutRoute: typeof AboutRoute
 }
 
 const FeaturesShellScreensLayoutRouteChildren: FeaturesShellScreensLayoutRouteChildren =
   {
+    FeaturesHomePagesHomeRoute: FeaturesHomePagesHomeRoute,
     AboutRoute: AboutRoute,
-  };
+  }
 
 const FeaturesShellScreensLayoutRouteWithChildren =
   FeaturesShellScreensLayoutRoute._addFileChildren(
     FeaturesShellScreensLayoutRouteChildren,
-  );
+  )
 
 export interface FileRoutesByFullPath {
-  '/': typeof SindexRoute;
-  '': typeof FeaturesShellScreensLayoutRouteWithChildren;
-  '/about': typeof AboutRoute;
+  '': typeof FeaturesShellScreensLayoutRouteWithChildren
+  '/login': typeof FeaturesAuthPagesLoginPageRoute
+  '/': typeof FeaturesHomePagesHomeRoute
+  '/about': typeof AboutRoute
 }
 
 export interface FileRoutesByTo {
-  '/': typeof SindexRoute;
-  '': typeof FeaturesShellScreensLayoutRouteWithChildren;
-  '/about': typeof AboutRoute;
+  '/login': typeof FeaturesAuthPagesLoginPageRoute
+  '/': typeof FeaturesHomePagesHomeRoute
+  '/about': typeof AboutRoute
 }
 
 export interface FileRoutesById {
-  __root__: typeof rootRoute;
-  '/': typeof SindexRoute;
-  '/_(authenticated)': typeof FeaturesShellScreensLayoutRouteWithChildren;
-  '/_(authenticated)/about': typeof AboutRoute;
+  __root__: typeof rootRoute
+  '/_(authenticated)': typeof FeaturesShellScreensLayoutRouteWithChildren
+  '/login': typeof FeaturesAuthPagesLoginPageRoute
+  '/_(authenticated)/': typeof FeaturesHomePagesHomeRoute
+  '/_(authenticated)/about': typeof AboutRoute
 }
 
 export interface FileRouteTypes {
-  fileRoutesByFullPath: FileRoutesByFullPath;
-  fullPaths: '/' | '' | '/about';
-  fileRoutesByTo: FileRoutesByTo;
-  to: '/' | '' | '/about';
-  id: '__root__' | '/' | '/_(authenticated)' | '/_(authenticated)/about';
-  fileRoutesById: FileRoutesById;
+  fileRoutesByFullPath: FileRoutesByFullPath
+  fullPaths: '' | '/login' | '/' | '/about'
+  fileRoutesByTo: FileRoutesByTo
+  to: '/login' | '/' | '/about'
+  id:
+    | '__root__'
+    | '/_(authenticated)'
+    | '/login'
+    | '/_(authenticated)/'
+    | '/_(authenticated)/about'
+  fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
-  SindexRoute: typeof SindexRoute;
-  FeaturesShellScreensLayoutRoute: typeof FeaturesShellScreensLayoutRouteWithChildren;
+  FeaturesShellScreensLayoutRoute: typeof FeaturesShellScreensLayoutRouteWithChildren
+  FeaturesAuthPagesLoginPageRoute: typeof FeaturesAuthPagesLoginPageRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  SindexRoute: SindexRoute,
   FeaturesShellScreensLayoutRoute: FeaturesShellScreensLayoutRouteWithChildren,
-};
+  FeaturesAuthPagesLoginPageRoute: FeaturesAuthPagesLoginPageRoute,
+}
 
 export const routeTree = rootRoute
   ._addFileChildren(rootRouteChildren)
-  ._addFileTypes<FileRouteTypes>();
+  ._addFileTypes<FileRouteTypes>()
 
 /* ROUTE_MANIFEST_START
 {
@@ -128,18 +153,23 @@ export const routeTree = rootRoute
     "__root__": {
       "filePath": "root.tsx",
       "children": [
-        "/",
-        "/_(authenticated)"
+        "/_(authenticated)",
+        "/login"
       ]
-    },
-    "/": {
-      "filePath": "./sindex.tsx"
     },
     "/_(authenticated)": {
       "filePath": "./features/shell/screens/layout.tsx",
       "children": [
+        "/_(authenticated)/",
         "/_(authenticated)/about"
       ]
+    },
+    "/login": {
+      "filePath": "./features/auth/pages/login-page.tsx"
+    },
+    "/_(authenticated)/": {
+      "filePath": "./features/home/pages/home.tsx",
+      "parent": "/_(authenticated)"
     },
     "/_(authenticated)/about": {
       "filePath": "./about.tsx",

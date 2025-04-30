@@ -1,23 +1,46 @@
-import { useMutation } from "@tanstack/react-query";
-import { useAuthStore } from "../stores"
-import { toast } from "sonner";
-import { LoginCredentials } from "../types";
-import { useTranslation } from "react-i18next";
+import { QUERY_KEYS } from '@/constants/query';
+import { useMutation } from '@tanstack/react-query';
+import { useLocation, useNavigate } from '@tanstack/react-router';
+import { useTranslation } from 'react-i18next';
+import { toast } from 'sonner';
+import { useAuthStore } from '../stores';
+import { LoginCredentials } from '../types';
 
-
-export const useLogin = () => {
-    const { login } = useAuthStore();
-    const { t } = useTranslation();
-    const mutation = useMutation({
-        mutationFn: login,
-    })
-
-    return {
-        ...mutation,
-        mutateAsync: (data: LoginCredentials) => toast.promise(mutation.mutateAsync(data), {
-            loading: t('auth.logging_in'),
-            success: t('auth.login_success'),
-            error: t('auth.login_failed'),
-        })
-    }
+interface UseLoginOptions {
+  redirectTo?: string;
 }
+
+export const useLogin = (options: UseLoginOptions = {}) => {
+  const { login } = useAuthStore();
+  const { t } = useTranslation();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const redirect = options.redirectTo || new URLSearchParams(location.search).get('redirect');
+
+  const mutation = useMutation({
+    mutationKey: [QUERY_KEYS.AUTH.LOGIN],
+    mutationFn: (data: LoginCredentials) => login(data),
+    onSuccess: () => {
+      navigate({ to: redirect || '/' });
+    },
+    onError: (error) => {
+      const errorMessage = error instanceof Error 
+        ? error.message.includes('Network Error')
+          ? t('auth.login.error.network_error')
+          : t('auth.login.error.invalid_credentials')
+        : t('auth.login.error.invalid_credentials');
+      
+      toast.error(errorMessage);
+    },
+  });
+
+  return {
+    ...mutation,
+    mutateAsync: (data: LoginCredentials) =>
+      toast.promise(mutation.mutateAsync(data), {
+        loading: t('auth.login.logging_in'),
+        success: t('auth.login.login_success'),
+        error: t('auth.login.login_failed'),
+      }),
+  };
+};
