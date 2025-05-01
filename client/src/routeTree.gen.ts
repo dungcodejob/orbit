@@ -14,7 +14,7 @@ import { Route as rootRoute } from './root'
 import { Route as FeaturesShellScreensUnauthenticatedLayoutImport } from './features/shell/screens/unauthenticated-layout'
 import { Route as FeaturesShellScreensAuthenticatedLayoutImport } from './features/shell/screens/authenticated-layout'
 import { Route as FeaturesAuthPagesLoginPageImport } from './features/auth/pages/login-page'
-import { Route as FeaturesProductsPagesProductPageImport } from './features/products/pages/product-page'
+import { Route as FeaturesProductPagesProductPageImport } from './features/product/pages/product-page'
 import { Route as FeaturesHomePagesHomeImport } from './features/home/pages/home'
 
 // Create/Update Routes
@@ -39,8 +39,8 @@ const FeaturesAuthPagesLoginPageRoute = FeaturesAuthPagesLoginPageImport.update(
   } as any,
 )
 
-const FeaturesProductsPagesProductPageRoute =
-  FeaturesProductsPagesProductPageImport.update({
+const FeaturesProductPagesProductPageRoute =
+  FeaturesProductPagesProductPageImport.update({
     id: '/product',
     path: '/product',
     getParentRoute: () => FeaturesShellScreensAuthenticatedLayoutRoute,
@@ -81,7 +81,7 @@ declare module '@tanstack/react-router' {
       id: '/_(authenticated)/product'
       path: '/product'
       fullPath: '/product'
-      preLoaderRoute: typeof FeaturesProductsPagesProductPageImport
+      preLoaderRoute: typeof FeaturesProductPagesProductPageImport
       parentRoute: typeof FeaturesShellScreensAuthenticatedLayoutImport
     }
     '/_(unauthenticated)/login': {
@@ -98,14 +98,13 @@ declare module '@tanstack/react-router' {
 
 interface FeaturesShellScreensAuthenticatedLayoutRouteChildren {
   FeaturesHomePagesHomeRoute: typeof FeaturesHomePagesHomeRoute
-  FeaturesProductsPagesProductPageRoute: typeof FeaturesProductsPagesProductPageRoute
+  FeaturesProductPagesProductPageRoute: typeof FeaturesProductPagesProductPageRoute
 }
 
 const FeaturesShellScreensAuthenticatedLayoutRouteChildren: FeaturesShellScreensAuthenticatedLayoutRouteChildren =
   {
     FeaturesHomePagesHomeRoute: FeaturesHomePagesHomeRoute,
-    FeaturesProductsPagesProductPageRoute:
-      FeaturesProductsPagesProductPageRoute,
+    FeaturesProductPagesProductPageRoute: FeaturesProductPagesProductPageRoute,
   }
 
 const FeaturesShellScreensAuthenticatedLayoutRouteWithChildren =
@@ -130,14 +129,14 @@ const FeaturesShellScreensUnauthenticatedLayoutRouteWithChildren =
 export interface FileRoutesByFullPath {
   '': typeof FeaturesShellScreensUnauthenticatedLayoutRouteWithChildren
   '/': typeof FeaturesHomePagesHomeRoute
-  '/product': typeof FeaturesProductsPagesProductPageRoute
+  '/product': typeof FeaturesProductPagesProductPageRoute
   '/login': typeof FeaturesAuthPagesLoginPageRoute
 }
 
 export interface FileRoutesByTo {
   '': typeof FeaturesShellScreensUnauthenticatedLayoutRouteWithChildren
   '/': typeof FeaturesHomePagesHomeRoute
-  '/product': typeof FeaturesProductsPagesProductPageRoute
+  '/product': typeof FeaturesProductPagesProductPageRoute
   '/login': typeof FeaturesAuthPagesLoginPageRoute
 }
 
@@ -146,7 +145,7 @@ export interface FileRoutesById {
   '/_(authenticated)': typeof FeaturesShellScreensAuthenticatedLayoutRouteWithChildren
   '/_(unauthenticated)': typeof FeaturesShellScreensUnauthenticatedLayoutRouteWithChildren
   '/_(authenticated)/': typeof FeaturesHomePagesHomeRoute
-  '/_(authenticated)/product': typeof FeaturesProductsPagesProductPageRoute
+  '/_(authenticated)/product': typeof FeaturesProductPagesProductPageRoute
   '/_(unauthenticated)/login': typeof FeaturesAuthPagesLoginPageRoute
 }
 
@@ -209,7 +208,7 @@ export const routeTree = rootRoute
       "parent": "/_(authenticated)"
     },
     "/_(authenticated)/product": {
-      "filePath": "./features/products/pages/product-page.tsx",
+      "filePath": "./features/product/pages/product-page.tsx",
       "parent": "/_(authenticated)"
     },
     "/_(unauthenticated)/login": {

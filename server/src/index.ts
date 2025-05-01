@@ -155,3 +155,64 @@ app.put('/account/:id', (req, res) => {
   mockAccount = { ...mockAccount, ...req.body, id };
   res.json(mockAccount);
 });
+
+// Mock product data
+let mockProducts = [
+  {
+    id: '1',
+    name: 'Product 1',
+    description: 'Description for product 1',
+    price: 100,
+    imageUrl: '',
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+  },
+  {
+    id: '2',
+    name: 'Product 2',
+    description: 'Description for product 2',
+    price: 200,
+    imageUrl: '',
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+  },
+];
+
+// GET /api/products - load all products
+app.get('/api/products', (req, res) => {
+  res.json(mockProducts);
+});
+
+// GET /api/products/:id - load single product
+app.get('/api/products/:id', (req, res) => {
+  const product = mockProducts.find((p) => p.id === req.params.id);
+  if (!product) {
+    return res.status(404).json({ message: 'Product not found' });
+  }
+  res.json(product);
+});
+
+// PUT /api/products/:id - update product
+app.put('/api/products/:id', (req, res) => {
+  const index = mockProducts.findIndex((p) => p.id === req.params.id);
+  if (index === -1) {
+    return res.status(404).json({ message: 'Product not found' });
+  }
+  mockProducts[index] = {
+    ...mockProducts[index],
+    ...req.body,
+    id: req.params.id,
+    updatedAt: new Date().toISOString(),
+  };
+  res.json(mockProducts[index]);
+});
+
+// DELETE /api/products/:id - delete product
+app.delete('/api/products/:id', (req, res) => {
+  const index = mockProducts.findIndex((p) => p.id === req.params.id);
+  if (index === -1) {
+    return res.status(404).json({ message: 'Product not found' });
+  }
+  const deleted = mockProducts.splice(index, 1);
+  res.json(deleted[0]);
+});
