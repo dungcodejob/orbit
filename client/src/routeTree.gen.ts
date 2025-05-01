@@ -10,117 +10,176 @@
 
 // Import Routes
 
-import { Route as rootRoute } from './root';
-import { Route as FeaturesShellScreensLayoutImport } from './features/shell/screens/layout';
-import { Route as SindexImport } from './sindex';
-import { Route as AboutImport } from './about';
+import { Route as rootRoute } from './root'
+import { Route as FeaturesShellScreensUnauthenticatedLayoutImport } from './features/shell/screens/unauthenticated-layout'
+import { Route as FeaturesShellScreensAuthenticatedLayoutImport } from './features/shell/screens/authenticated-layout'
+import { Route as FeaturesAuthPagesLoginPageImport } from './features/auth/pages/login-page'
+import { Route as FeaturesProductsPagesProductPageImport } from './features/products/pages/product-page'
+import { Route as FeaturesHomePagesHomeImport } from './features/home/pages/home'
 
 // Create/Update Routes
 
-const FeaturesShellScreensLayoutRoute = FeaturesShellScreensLayoutImport.update(
-  {
+const FeaturesShellScreensUnauthenticatedLayoutRoute =
+  FeaturesShellScreensUnauthenticatedLayoutImport.update({
+    id: '/_(unauthenticated)',
+    getParentRoute: () => rootRoute,
+  } as any)
+
+const FeaturesShellScreensAuthenticatedLayoutRoute =
+  FeaturesShellScreensAuthenticatedLayoutImport.update({
     id: '/_(authenticated)',
     getParentRoute: () => rootRoute,
-  } as any,
-);
+  } as any)
 
-const SindexRoute = SindexImport.update({
+const FeaturesAuthPagesLoginPageRoute = FeaturesAuthPagesLoginPageImport.update(
+  {
+    id: '/login',
+    path: '/login',
+    getParentRoute: () => FeaturesShellScreensUnauthenticatedLayoutRoute,
+  } as any,
+)
+
+const FeaturesProductsPagesProductPageRoute =
+  FeaturesProductsPagesProductPageImport.update({
+    id: '/product',
+    path: '/product',
+    getParentRoute: () => FeaturesShellScreensAuthenticatedLayoutRoute,
+  } as any)
+
+const FeaturesHomePagesHomeRoute = FeaturesHomePagesHomeImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRoute,
-} as any);
-
-const AboutRoute = AboutImport.update({
-  id: '/about',
-  path: '/about',
-  getParentRoute: () => FeaturesShellScreensLayoutRoute,
-} as any);
+  getParentRoute: () => FeaturesShellScreensAuthenticatedLayoutRoute,
+} as any)
 
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/';
-      path: '/';
-      fullPath: '/';
-      preLoaderRoute: typeof SindexImport;
-      parentRoute: typeof rootRoute;
-    };
     '/_(authenticated)': {
-      id: '/_(authenticated)';
-      path: '';
-      fullPath: '';
-      preLoaderRoute: typeof FeaturesShellScreensLayoutImport;
-      parentRoute: typeof rootRoute;
-    };
-    '/_(authenticated)/about': {
-      id: '/_(authenticated)/about';
-      path: '/about';
-      fullPath: '/about';
-      preLoaderRoute: typeof AboutImport;
-      parentRoute: typeof FeaturesShellScreensLayoutImport;
-    };
+      id: '/_(authenticated)'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof FeaturesShellScreensAuthenticatedLayoutImport
+      parentRoute: typeof rootRoute
+    }
+    '/_(unauthenticated)': {
+      id: '/_(unauthenticated)'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof FeaturesShellScreensUnauthenticatedLayoutImport
+      parentRoute: typeof rootRoute
+    }
+    '/_(authenticated)/': {
+      id: '/_(authenticated)/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof FeaturesHomePagesHomeImport
+      parentRoute: typeof FeaturesShellScreensAuthenticatedLayoutImport
+    }
+    '/_(authenticated)/product': {
+      id: '/_(authenticated)/product'
+      path: '/product'
+      fullPath: '/product'
+      preLoaderRoute: typeof FeaturesProductsPagesProductPageImport
+      parentRoute: typeof FeaturesShellScreensAuthenticatedLayoutImport
+    }
+    '/_(unauthenticated)/login': {
+      id: '/_(unauthenticated)/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof FeaturesAuthPagesLoginPageImport
+      parentRoute: typeof FeaturesShellScreensUnauthenticatedLayoutImport
+    }
   }
 }
 
 // Create and export the route tree
 
-interface FeaturesShellScreensLayoutRouteChildren {
-  AboutRoute: typeof AboutRoute;
+interface FeaturesShellScreensAuthenticatedLayoutRouteChildren {
+  FeaturesHomePagesHomeRoute: typeof FeaturesHomePagesHomeRoute
+  FeaturesProductsPagesProductPageRoute: typeof FeaturesProductsPagesProductPageRoute
 }
 
-const FeaturesShellScreensLayoutRouteChildren: FeaturesShellScreensLayoutRouteChildren =
+const FeaturesShellScreensAuthenticatedLayoutRouteChildren: FeaturesShellScreensAuthenticatedLayoutRouteChildren =
   {
-    AboutRoute: AboutRoute,
-  };
+    FeaturesHomePagesHomeRoute: FeaturesHomePagesHomeRoute,
+    FeaturesProductsPagesProductPageRoute:
+      FeaturesProductsPagesProductPageRoute,
+  }
 
-const FeaturesShellScreensLayoutRouteWithChildren =
-  FeaturesShellScreensLayoutRoute._addFileChildren(
-    FeaturesShellScreensLayoutRouteChildren,
-  );
+const FeaturesShellScreensAuthenticatedLayoutRouteWithChildren =
+  FeaturesShellScreensAuthenticatedLayoutRoute._addFileChildren(
+    FeaturesShellScreensAuthenticatedLayoutRouteChildren,
+  )
+
+interface FeaturesShellScreensUnauthenticatedLayoutRouteChildren {
+  FeaturesAuthPagesLoginPageRoute: typeof FeaturesAuthPagesLoginPageRoute
+}
+
+const FeaturesShellScreensUnauthenticatedLayoutRouteChildren: FeaturesShellScreensUnauthenticatedLayoutRouteChildren =
+  {
+    FeaturesAuthPagesLoginPageRoute: FeaturesAuthPagesLoginPageRoute,
+  }
+
+const FeaturesShellScreensUnauthenticatedLayoutRouteWithChildren =
+  FeaturesShellScreensUnauthenticatedLayoutRoute._addFileChildren(
+    FeaturesShellScreensUnauthenticatedLayoutRouteChildren,
+  )
 
 export interface FileRoutesByFullPath {
-  '/': typeof SindexRoute;
-  '': typeof FeaturesShellScreensLayoutRouteWithChildren;
-  '/about': typeof AboutRoute;
+  '': typeof FeaturesShellScreensUnauthenticatedLayoutRouteWithChildren
+  '/': typeof FeaturesHomePagesHomeRoute
+  '/product': typeof FeaturesProductsPagesProductPageRoute
+  '/login': typeof FeaturesAuthPagesLoginPageRoute
 }
 
 export interface FileRoutesByTo {
-  '/': typeof SindexRoute;
-  '': typeof FeaturesShellScreensLayoutRouteWithChildren;
-  '/about': typeof AboutRoute;
+  '': typeof FeaturesShellScreensUnauthenticatedLayoutRouteWithChildren
+  '/': typeof FeaturesHomePagesHomeRoute
+  '/product': typeof FeaturesProductsPagesProductPageRoute
+  '/login': typeof FeaturesAuthPagesLoginPageRoute
 }
 
 export interface FileRoutesById {
-  __root__: typeof rootRoute;
-  '/': typeof SindexRoute;
-  '/_(authenticated)': typeof FeaturesShellScreensLayoutRouteWithChildren;
-  '/_(authenticated)/about': typeof AboutRoute;
+  __root__: typeof rootRoute
+  '/_(authenticated)': typeof FeaturesShellScreensAuthenticatedLayoutRouteWithChildren
+  '/_(unauthenticated)': typeof FeaturesShellScreensUnauthenticatedLayoutRouteWithChildren
+  '/_(authenticated)/': typeof FeaturesHomePagesHomeRoute
+  '/_(authenticated)/product': typeof FeaturesProductsPagesProductPageRoute
+  '/_(unauthenticated)/login': typeof FeaturesAuthPagesLoginPageRoute
 }
 
 export interface FileRouteTypes {
-  fileRoutesByFullPath: FileRoutesByFullPath;
-  fullPaths: '/' | '' | '/about';
-  fileRoutesByTo: FileRoutesByTo;
-  to: '/' | '' | '/about';
-  id: '__root__' | '/' | '/_(authenticated)' | '/_(authenticated)/about';
-  fileRoutesById: FileRoutesById;
+  fileRoutesByFullPath: FileRoutesByFullPath
+  fullPaths: '' | '/' | '/product' | '/login'
+  fileRoutesByTo: FileRoutesByTo
+  to: '' | '/' | '/product' | '/login'
+  id:
+    | '__root__'
+    | '/_(authenticated)'
+    | '/_(unauthenticated)'
+    | '/_(authenticated)/'
+    | '/_(authenticated)/product'
+    | '/_(unauthenticated)/login'
+  fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
-  SindexRoute: typeof SindexRoute;
-  FeaturesShellScreensLayoutRoute: typeof FeaturesShellScreensLayoutRouteWithChildren;
+  FeaturesShellScreensAuthenticatedLayoutRoute: typeof FeaturesShellScreensAuthenticatedLayoutRouteWithChildren
+  FeaturesShellScreensUnauthenticatedLayoutRoute: typeof FeaturesShellScreensUnauthenticatedLayoutRouteWithChildren
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  SindexRoute: SindexRoute,
-  FeaturesShellScreensLayoutRoute: FeaturesShellScreensLayoutRouteWithChildren,
-};
+  FeaturesShellScreensAuthenticatedLayoutRoute:
+    FeaturesShellScreensAuthenticatedLayoutRouteWithChildren,
+  FeaturesShellScreensUnauthenticatedLayoutRoute:
+    FeaturesShellScreensUnauthenticatedLayoutRouteWithChildren,
+}
 
 export const routeTree = rootRoute
   ._addFileChildren(rootRouteChildren)
-  ._addFileTypes<FileRouteTypes>();
+  ._addFileTypes<FileRouteTypes>()
 
 /* ROUTE_MANIFEST_START
 {
@@ -128,22 +187,34 @@ export const routeTree = rootRoute
     "__root__": {
       "filePath": "root.tsx",
       "children": [
-        "/",
-        "/_(authenticated)"
+        "/_(authenticated)",
+        "/_(unauthenticated)"
       ]
-    },
-    "/": {
-      "filePath": "./sindex.tsx"
     },
     "/_(authenticated)": {
-      "filePath": "./features/shell/screens/layout.tsx",
+      "filePath": "./features/shell/screens/authenticated-layout.tsx",
       "children": [
-        "/_(authenticated)/about"
+        "/_(authenticated)/",
+        "/_(authenticated)/product"
       ]
     },
-    "/_(authenticated)/about": {
-      "filePath": "./about.tsx",
+    "/_(unauthenticated)": {
+      "filePath": "./features/shell/screens/unauthenticated-layout.tsx",
+      "children": [
+        "/_(unauthenticated)/login"
+      ]
+    },
+    "/_(authenticated)/": {
+      "filePath": "./features/home/pages/home.tsx",
       "parent": "/_(authenticated)"
+    },
+    "/_(authenticated)/product": {
+      "filePath": "./features/products/pages/product-page.tsx",
+      "parent": "/_(authenticated)"
+    },
+    "/_(unauthenticated)/login": {
+      "filePath": "./features/auth/pages/login-page.tsx",
+      "parent": "/_(unauthenticated)"
     }
   }
 }
