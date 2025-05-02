@@ -1,11 +1,7 @@
 export const QUERY_KEYS = {
-  AUTH: {
-    LOGIN: 'auth.login',
-    LOGOUT: 'auth.logout',
-  },
-  ACCOUNT: {
-    GET: 'account.get',
-    ME: 'account.me',
-  },
-
-} as const; 
+  LOGIN: 'login',
+  LOGOUT: 'logout',
+  ACCOUNT: 'account',
+  ME: 'me',
+  PRODUCT: 'product'
+} as const;

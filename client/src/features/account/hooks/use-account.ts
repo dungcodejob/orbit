@@ -11,7 +11,7 @@ export const useAccount = () => {
     const { getAccount } = useAccountStore();
     const { isAuthenticated } = useAuthStore();
     const query = useQuery({
-        queryKey: [QUERY_KEYS.ACCOUNT.GET, QUERY_KEYS.ACCOUNT.ME],
+        queryKey: [QUERY_KEYS.ACCOUNT, QUERY_KEYS.ME],
         queryFn: getAccount,
         gcTime: WEEK,
         enabled: isAuthenticated,

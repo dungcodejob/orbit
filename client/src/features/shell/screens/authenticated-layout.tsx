@@ -43,7 +43,7 @@ export function AuthenticatedLayout() {
         <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
           <SiteHeader />
         </header>
-        <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
+        <div className="relative z-50 mx-auto flex w-full max-w-[1360px] flex-1 flex-col self-stretch">
           <Outlet />
         </div>
       </SidebarInset>
