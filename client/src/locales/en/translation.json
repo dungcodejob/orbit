@@ -26,5 +26,10 @@
   "auth.login.terms": "By clicking continue, you agree to our",
   "auth.login.terms_of_service": "Terms of Service",
   "auth.login.privacy_policy": "Privacy Policy",
-  "common.and": "and"
+  "common.and": "and",
+  "pagination.previous": "Previous",
+  "pagination.next": "Next",
+  "pagination.page_of": "Page {{currentPage}} of {{totalPages}}",
+  "pagination.display_items": "Showing {{start}} to {{end}} of {{totalItems}} items",
+  "pagination.page": "page"
 } 
