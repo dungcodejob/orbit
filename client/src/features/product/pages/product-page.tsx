@@ -3,7 +3,8 @@
 
 
 import { createFileRoute } from '@tanstack/react-router';
-import ProductsList from '../components/product-list';
+import { ProductsList } from '../components/product-list';
+import { ProductListFilters } from '../components/product-filter';
 
 export const Route = createFileRoute('/_(authenticated)/product')({
   component: ProductPage,
@@ -17,7 +18,7 @@ export default function ProductPage() {
         <ProductsSummary />
         <DashedDivider /> */}
 
-        {/* <ProductListFilters /> */}
+        <ProductListFilters />
         <ProductsList />
         {/* <EditProductDrawer /> */}
       </div>

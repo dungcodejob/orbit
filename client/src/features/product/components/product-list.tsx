@@ -10,7 +10,7 @@ const breakpointColumnsObj = {
     500: 1,
 };
 
-export default function ProductsList() {
+export function ProductsList() {
     return (
         <>
             <Masonry
