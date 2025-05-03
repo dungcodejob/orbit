@@ -26,5 +26,10 @@
   "auth.login.terms": "Bằng cách nhấp tiếp tục, bạn đồng ý với",
   "auth.login.terms_of_service": "Điều khoản dịch vụ",
   "auth.login.privacy_policy": "Chính sách bảo mật",
-  "common.and": "và"
+  "common.and": "và",
+  "pagination.previous": "Trước",
+  "pagination.next": "Tiếp",
+  "pagination.page_of": "Trang {{currentPage}} trên {{totalPages}}",
+  "pagination.display_items": "Hiển thị từ {{start}} đến {{end}} trong tổng số {{totalItems}} mục",
+  "pagination.page": "trang"
 } 
