@@ -4,7 +4,7 @@ import { QUERY_KEYS } from "@/constants/query";
 
 const productQueryOptions = () => queryOptions({
     queryKey: [QUERY_KEYS.PRODUCT],
-    queryFn: productApi.getProducts,
+    queryFn: () => productApi.getProducts().then(res => res.data),
     placeholderData: keepPreviousData,
 })
 

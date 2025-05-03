@@ -87,7 +87,7 @@ const datas = {
   stock: stockData,
 } as const;
 
-export function ProductCard({ images, title, category }: ProductData) {
+export function ProductCard({ images, name: title, category }: ProductData) {
  
   const [expanded, setExpanded] = React.useState(false);
   const [activeTab, setActiveTab] = React.useState<'sales' | 'views' | 'stock'>(

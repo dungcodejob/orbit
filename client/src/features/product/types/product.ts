@@ -6,8 +6,8 @@ export interface Product {
   name: string;
   description: string;
   price: number;  
-  imageUrl?: string;
-  category: Category;
+  images: string[];
+  category: string;
   createdAt: string;
   updatedAt: string;
 }

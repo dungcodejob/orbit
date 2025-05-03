@@ -1,6 +1,6 @@
 export type ProductData = {
   images: string[];
-  title: string;
+  name: string;
   category: string;
 };
 
@@ -11,7 +11,7 @@ export const productsData: ProductData[] = [
       '/images/products/apple-watch-1.png',
       '/images/products/apple-watch-1.png',
     ],
-    title: 'Apple Watch S5 GPS 40mm White',
+    name: 'Apple Watch S5 GPS 40mm White',
     category: 'Technologhy',
   },
   {
@@ -20,7 +20,7 @@ export const productsData: ProductData[] = [
       '/images/products/macbook-1.png',
       '/images/products/macbook-1.png',
     ],
-    title: 'MacBook Pro M1 256GB Silver',
+    name: 'MacBook Pro M1 256GB Silver',
     category: 'Technologhy',
   },
   {
@@ -29,7 +29,7 @@ export const productsData: ProductData[] = [
       '/images/products/imac-1.png',
       '/images/products/imac-1.png',
     ],
-    title: 'iMac M1 24-inch Purple',
+    name: 'iMac M1 24-inch Purple',
     category: 'Technologhy',
   },
   {
@@ -38,7 +38,7 @@ export const productsData: ProductData[] = [
       '/images/products/airpods-max-1.png',
       '/images/products/airpods-max-1.png',
     ],
-    title: 'AirPods Max Green',
+    name: 'AirPods Max Green',
     category: 'Technologhy',
   },
   {
@@ -47,7 +47,7 @@ export const productsData: ProductData[] = [
       '/images/products/homepod-mini-1.png',
       '/images/products/homepod-mini-1.png',
     ],
-    title: 'HomePod Mini Orange',
+    name: 'HomePod Mini Orange',
     category: 'Technologhy',
   },
   {
@@ -56,7 +56,7 @@ export const productsData: ProductData[] = [
       '/images/products/ipad-pro-1.png',
       '/images/products/ipad-pro-1.png',
     ],
-    title: 'iPad Pro 12.9-inch with M2 chip',
+    name: 'iPad Pro 12.9-inch with M2 chip',
     category: 'Technologhy',
   },
   {
@@ -65,7 +65,7 @@ export const productsData: ProductData[] = [
       '/images/products/apple-studio-display-1.png',
       '/images/products/apple-studio-display-1.png',
     ],
-    title: 'Apple Studio Display Standard Glass',
+    name: 'Apple Studio Display Standard Glass',
     category: 'Technologhy',
   },
   {
@@ -74,7 +74,7 @@ export const productsData: ProductData[] = [
       '/images/products/airpods-pro-1.png',
       '/images/products/airpods-pro-1.png',
     ],
-    title: 'Apple AirPods Pro 2nd Gen',
+    name: 'Apple AirPods Pro 2nd Gen',
     category: 'Technologhy',
   },
 
@@ -85,7 +85,7 @@ export const productsData: ProductData[] = [
       '/images/products/apple-watch-1.png',
       '/images/products/apple-watch-1.png',
     ],
-    title: 'Apple Watch S5 GPS 40mm White',
+    name: 'Apple Watch S5 GPS 40mm White',
     category: 'Technologhy',
   },
   {
@@ -94,7 +94,7 @@ export const productsData: ProductData[] = [
       '/images/products/macbook-1.png',
       '/images/products/macbook-1.png',
     ],
-    title: 'MacBook Pro M1 256GB Silver',
+    name: 'MacBook Pro M1 256GB Silver',
     category: 'Technologhy',
   },
   {
@@ -103,7 +103,7 @@ export const productsData: ProductData[] = [
       '/images/products/imac-1.png',
       '/images/products/imac-1.png',
     ],
-    title: 'iMac M1 24-inch Purple',
+    name: 'iMac M1 24-inch Purple',
     category: 'Technologhy',
   },
   {
@@ -112,7 +112,7 @@ export const productsData: ProductData[] = [
       '/images/products/airpods-max-1.png',
       '/images/products/airpods-max-1.png',
     ],
-    title: 'AirPods Max Green',
+    name: 'AirPods Max Green',
     category: 'Technologhy',
   },
 ];

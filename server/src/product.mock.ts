@@ -13,9 +13,21 @@ let mockProducts = Array.from({ length: 30 }).map((_, i) => ({
 }));
 
 export function registerProductRoutes(app: Express) {
-  // GET /api/products - load all products
+  // GET /api/products - load all products, support keyword search
   app.get('/api/products', (req, res) => {
-    res.json(mockProducts);
+    const { keyword } = req.query;
+    let filtered = mockProducts;
+
+    if (keyword && typeof keyword === 'string') {
+      const lowerKeyword = keyword.toLowerCase();
+      filtered = filtered.filter(
+        (p) =>
+          p.name.toLowerCase().includes(lowerKeyword) ||
+          p.description.toLowerCase().includes(lowerKeyword)
+      );
+    }
+
+    res.json(filtered);
   });
 
   // GET /api/products/:id - load single product
