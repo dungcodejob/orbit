@@ -1,25 +1,30 @@
-
-
-
-
 import { createFileRoute } from '@tanstack/react-router';
 import { ProductsList } from '../components/product-list';
-import { ProductListFilters } from '../components/product-filter';
+import { ProductQueryParams } from '../types';
+import { useFilters } from '@/hooks/use-filters';
+import { ProductFilter } from '../components/product-filter';
+import { ProductTable } from '../components/product-table';
 
 export const Route = createFileRoute('/_(authenticated)/product')({
   component: ProductPage,
+  validateSearch: () => ({}) as Partial<ProductQueryParams>,
 });
 
 export default function ProductPage() {
+  const { filters, setFilters } = useFilters(Route.id);
   return (
-    <div className="flex flex-col items-center justify-center p-6 md:p-10">
-      <div className='px-4 pb-6 lg:px-8'>
+    <div className="flex flex-col items-center justify-center mt-6 md:mt-10">
+      <div className="px-4 pb-6 lg:px-8 w-full">
         {/* <DashedDivider />
         <ProductsSummary />
         <DashedDivider /> */}
 
-        <ProductListFilters />
-        <ProductsList />
+        <ProductFilter
+          keyword={filters.keyword}
+          onKeywordChange={(keyword) => setFilters({ keyword })}
+        />
+        {/* <ProductsList /> */}
+        <ProductTable />
         {/* <EditProductDrawer /> */}
       </div>
     </div>

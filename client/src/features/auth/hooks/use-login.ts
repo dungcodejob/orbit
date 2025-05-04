@@ -15,7 +15,8 @@ export const useLogin = (options: UseLoginOptions = {}) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
-  const redirect = options.redirectTo || new URLSearchParams(location.search).get('redirect');
+  const redirect =
+    options.redirectTo || new URLSearchParams(location.search).get('redirect');
 
   const mutation = useMutation({
     mutationKey: [QUERY_KEYS.AUTH.LOGIN],
@@ -24,12 +25,13 @@ export const useLogin = (options: UseLoginOptions = {}) => {
       navigate({ to: redirect || '/' });
     },
     onError: (error) => {
-      const errorMessage = error instanceof Error 
-        ? error.message.includes('Network Error')
-          ? t('auth.login.error.network_error')
-          : t('auth.login.error.invalid_credentials')
-        : t('auth.login.error.invalid_credentials');
-      
+      const errorMessage =
+        error instanceof Error
+          ? error.message.includes('Network Error')
+            ? t('auth.login.error.network_error')
+            : t('auth.login.error.invalid_credentials')
+          : t('auth.login.error.invalid_credentials');
+
       toast.error(errorMessage);
     },
   });

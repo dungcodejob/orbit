@@ -7,7 +7,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage
+  FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/utils/cn';
@@ -51,7 +51,9 @@ export function LoginForm({
             <form className="p-6 md:p-8" onSubmit={form.handleSubmit(onSubmit)}>
               <div className="flex flex-col gap-6">
                 <div className="flex flex-col items-center text-center">
-                  <h1 className="text-2xl font-bold">{t('auth.login.welcome')}</h1>
+                  <h1 className="text-2xl font-bold">
+                    {t('auth.login.welcome')}
+                  </h1>
                   <p className="text-balance text-muted-foreground">
                     {t('auth.login.welcome_subtitle')}
                   </p>
@@ -109,7 +111,9 @@ export function LoginForm({
                         fill="currentColor"
                       />
                     </svg>
-                    <span className="sr-only">{t('auth.login.social.apple')}</span>
+                    <span className="sr-only">
+                      {t('auth.login.social.apple')}
+                    </span>
                   </Button>
                   <Button variant="outline" className="w-full">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -118,7 +122,9 @@ export function LoginForm({
                         fill="currentColor"
                       />
                     </svg>
-                    <span className="sr-only">{t('auth.login.social.google')}</span>
+                    <span className="sr-only">
+                      {t('auth.login.social.google')}
+                    </span>
                   </Button>
                   <Button variant="outline" className="w-full">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -127,7 +133,9 @@ export function LoginForm({
                         fill="currentColor"
                       />
                     </svg>
-                    <span className="sr-only">{t('auth.login.social.meta')}</span>
+                    <span className="sr-only">
+                      {t('auth.login.social.meta')}
+                    </span>
                   </Button>
                 </div>
                 <div className="text-center text-sm">

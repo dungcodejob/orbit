@@ -1,10 +1,7 @@
 import { createFileRoute, Outlet, redirect } from '@tanstack/react-router';
 import { useEffect, type PropsWithChildren } from 'react';
 
-import {
-  SidebarInset,
-  SidebarProvider,
-} from '@/components/ui/sidebar';
+import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
 import { AppSidebar } from '../components/app-sidebar';
 import { SiteHeader } from '../components/header';
 import { useAuthStore } from '@/features/auth/stores';
@@ -32,10 +29,10 @@ export const Route = createFileRoute('/_(authenticated)')({
 
 export function AuthenticatedLayout() {
   const { data } = useAccount();
-  const {account} = useAccountStore();
+  const { account } = useAccountStore();
   useEffect(() => {
     console.log(account);
-  }, [account])
+  }, [account]);
   return (
     <SidebarProvider>
       <AppSidebar />

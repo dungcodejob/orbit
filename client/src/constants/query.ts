@@ -3,5 +3,5 @@ export const QUERY_KEYS = {
   LOGOUT: 'logout',
   ACCOUNT: 'account',
   ME: 'me',
-  PRODUCT: 'product'
+  PRODUCT: 'product',
 } as const;

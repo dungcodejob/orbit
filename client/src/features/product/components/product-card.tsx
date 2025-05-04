@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 
 import {
   RiArrowDownSLine,
@@ -21,7 +21,6 @@ import {
 import { cn } from '@/utils/cn';
 
 // import { DashedDivider } from '@/components/dashed-divider';
-
 
 import { Button } from '@/components/ui/button';
 import { ProductData } from './data';
@@ -87,8 +86,7 @@ const datas = {
   stock: stockData,
 } as const;
 
-export function ProductCard({ images, title, category }: ProductData) {
- 
+export function ProductCard({ images, name: title, category }: ProductData) {
   const [expanded, setExpanded] = React.useState(false);
   const [activeTab, setActiveTab] = React.useState<'sales' | 'views' | 'stock'>(
     'sales',
@@ -101,13 +99,13 @@ export function ProductCard({ images, title, category }: ProductData) {
   return (
     <div
       className={cn(
-        "relative flex h-[258px] flex-col overflow-hidden rounded-2xl bg-week pt-8 transition-all duration-500",
+        'relative flex h-[258px] flex-col overflow-hidden rounded-2xl bg-week pt-8 transition-all duration-500',
         {
-          "h-[540px]": expanded,
-        }
+          'h-[540px]': expanded,
+        },
       )}
       style={{
-        transitionTimingFunction: "cubic-bezier(.6,.6,0,1)",
+        transitionTimingFunction: 'cubic-bezier(.6,.6,0,1)',
       }}
     >
       <Button variant="ghost" className="absolute right-3 top-3" size="icon">
@@ -117,16 +115,16 @@ export function ProductCard({ images, title, category }: ProductData) {
       <ProductImagesSlider slides={images} />
 
       <div
-        className={cn("mt-auto pt-0 transition-all duration-200", {
-          "p-1.5": expanded,
+        className={cn('mt-auto pt-0 transition-all duration-200', {
+          'p-1.5': expanded,
         })}
       >
         <div
           className={cn(
-            "w-full overflow-hidden rounded-xl p-4 transition-all duration-200",
+            'w-full overflow-hidden rounded-xl p-4 transition-all duration-200',
             {
-              "shadow-custom-xs bg-background": expanded,
-            }
+              'shadow-custom-xs bg-background': expanded,
+            },
           )}
         >
           <button
@@ -140,10 +138,10 @@ export function ProductCard({ images, title, category }: ProductData) {
               </div>
               <RiArrowDownSLine
                 className={cn(
-                  "size-[18px] shrink-0 text-text-soft-400 transition-all duration-200",
+                  'size-[18px] shrink-0 text-text-soft-400 transition-all duration-200',
                   {
-                    "text-text-sub-600 -rotate-180": expanded,
-                  }
+                    'text-text-sub-600 -rotate-180': expanded,
+                  },
                 )}
               />
             </div>
@@ -151,20 +149,24 @@ export function ProductCard({ images, title, category }: ProductData) {
           </button>
 
           <div
-            className={cn("flex flex-col transition duration-200", {
-              "opacity-0": !expanded,
+            className={cn('flex flex-col transition duration-200', {
+              'opacity-0': !expanded,
             })}
           >
             <div className="my-4">{/* <DashedDivider /> */}</div>
             <div className="flex gap-8">
               <div>
-                <div className="text-xs font-medium text-muted-foreground">Price</div>
+                <div className="text-xs font-medium text-muted-foreground">
+                  Price
+                </div>
                 <div className="mt-1 text-sm font-semibold text-neutral-500">
                   $948.00
                 </div>
               </div>
               <div>
-                <div className="text-xs font-medium text-muted-foreground">Stock</div>
+                <div className="text-xs font-medium text-muted-foreground">
+                  Stock
+                </div>
                 <div className="mt-1 flex items-center gap-0.5 text-sm font-semibold text-neutral-500">
                   48 units
                   <RiArrowRightUpLine className="size-4 shrink-0 text-success-base" />
@@ -231,7 +233,9 @@ export function ProductCard({ images, title, category }: ProductData) {
               </ResponsiveContainer>
             </div> */}
 
-            <Button variant="outline" className='mt-3'>Edit Product</Button>
+            <Button variant="outline" className="mt-3">
+              Edit Product
+            </Button>
           </div>
         </div>
       </div>

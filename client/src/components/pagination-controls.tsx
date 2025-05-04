@@ -1,5 +1,16 @@
-import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
-import { CURRENT_PAGE_DEFAULT, PAGE_SIZE_DEFAULT, PAGE_SIZE_OPTIONS } from '@/constants/default-values';
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from '@/components/ui/pagination';
+import {
+  CURRENT_PAGE_DEFAULT,
+  PAGE_SIZE_DEFAULT,
+  PAGE_SIZE_OPTIONS,
+} from '@/constants/default-values';
 import { cn } from '@/utils/cn';
 // import { getPageNumbers } from '@/utils/helpers';
 import {
@@ -10,9 +21,14 @@ import {
 } from '@remixicon/react';
 import { type FC, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from './ui/select';
 import { Button, buttonVariants } from './ui/button';
-
 
 export const getPageNumbers = (
   totalPages: number,
@@ -58,33 +74,32 @@ export const getPageNumbers = (
   return pages;
 };
 
-
 type PaginationTextProps = {
-  isActive?: boolean
-} & Pick<React.ComponentProps<typeof Button>, "size"> &
-  React.ComponentProps<"button">
+  isActive?: boolean;
+} & Pick<React.ComponentProps<typeof Button>, 'size'> &
+  React.ComponentProps<'button'>;
 
 function PaginationText({
   className,
   isActive,
-  size = "icon",
+  size = 'icon',
   ...props
 }: PaginationTextProps) {
   return (
     <Button
-      aria-current={isActive ? "page" : undefined}
+      aria-current={isActive ? 'page' : undefined}
       data-slot="pagination-link"
       data-active={isActive}
       className={cn(
         buttonVariants({
-          variant: isActive ? "outline" : "ghost",
+          variant: isActive ? 'outline' : 'ghost',
           size,
         }),
-        className
+        className,
       )}
       {...props}
     />
-  )
+  );
 }
 
 export type PaginationProps = {
@@ -96,8 +111,7 @@ export type PaginationProps = {
   pageSizeOptions?: number[];
   className?: string;
   isPlaceholderData?: boolean;
-
-} & React.HTMLAttributes<HTMLDivElement>
+} & React.HTMLAttributes<HTMLDivElement>;
 
 const PaginationControls: FC<PaginationProps> = ({
   pageIndex = CURRENT_PAGE_DEFAULT - 1,
@@ -214,26 +228,17 @@ const PaginationControls: FC<PaginationProps> = ({
 
   return (
     <div className={cn('mt-auto', className)} {...rest}>
-
-      <div className='mt-4 flex items-center justify-between py-4 lg:hidden'>
-        <Button
-          variant='outline'
-          size='sm'
-          className='w-28'
-        >
+      <div className="mt-4 flex items-center justify-between py-4 lg:hidden">
+        <Button variant="outline" size="sm" className="w-28">
           {t('pagination.previous')}
         </Button>
-        <span className='whitespace-nowrap text-center text-paragraph-sm text-text-sub-600'>
+        <span className="whitespace-nowrap text-center text-paragraph-sm text-text-sub-600">
           {t('pagination.page_of', {
             currentPage: pageIndex + 1,
             totalPages,
           })}
         </span>
-        <Button
-          variant='outline'
-          size='sm'
-          className='w-28'
-        >
+        <Button variant="outline" size="sm" className="w-28">
           {t('pagination.next')}
         </Button>
       </div>
@@ -247,7 +252,7 @@ const PaginationControls: FC<PaginationProps> = ({
             aria-disabled={pageIndex === 0}
           >
             {t('pagination.previous')}
-          </PaginationPrevious >
+          </PaginationPrevious>
         </PaginationItem>
         <span className="whitespace-nowrap text-center text-paragraph-sm text-text-sub-600">
           {t('pagination.page_of', {
@@ -270,7 +275,6 @@ const PaginationControls: FC<PaginationProps> = ({
         </span>
 
         <Pagination>
-
           <PaginationContent>
             <Button
               variant="outline"
@@ -296,17 +300,17 @@ const PaginationControls: FC<PaginationProps> = ({
               typeof page === 'number' ? (
                 <PaginationItem
                   key={`page-${page}`}
-
                   onClick={() => handleClickPageNumber(page)}
                 >
                   {/* <PaginationText>{page}</PaginationText> */}
-                  <PaginationLink isActive={page - 1 === pageIndex}>{page}</PaginationLink>
+                  <PaginationLink isActive={page - 1 === pageIndex}>
+                    {page}
+                  </PaginationLink>
                 </PaginationItem>
               ) : (
                 <PaginationItem key={`ellipsis-${page}`}>{page}</PaginationItem>
               ),
             )}
-
 
             <Button
               variant="outline"
@@ -334,7 +338,6 @@ const PaginationControls: FC<PaginationProps> = ({
 
         <div className="flex flex-1 justify-end">
           <Select
-
             defaultValue={pageSize?.toString()}
             onValueChange={(value) => onPageSizeChange(Number(value))}
           >
