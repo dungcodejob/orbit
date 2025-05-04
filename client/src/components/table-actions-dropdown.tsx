@@ -41,7 +41,7 @@ export function TableActionsDropdown({ actions }: TableActionsDropdownProps) {
           side="bottom"
           sideOffset={4}
           align="end"
-          className="w-[140px]"
+          className="min-w-56 rounded-lg"
         >
           {actions.map((action) => (
             <DropdownMenuItem

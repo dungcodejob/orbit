@@ -36,23 +36,23 @@ export const RowActionDelete = forwardRef<HTMLDivElement, RowActionDeleteProps>(
             ref={ref}
           >
             <RiDeleteBinLine />
-            {buttonLabel || t('delete')}
+            {buttonLabel || t('common.delete')}
           </DropdownMenuItem>
         </AlertDialogTrigger>
         <AlertDialogContent>
+
           <AlertDialogHeader>
             <AlertDialogTitle>
-              {' '}
-              {modalTitle || t('delete_confirmation')}
+              {modalTitle || t('common.delete_confirmation')}
             </AlertDialogTitle>
             <AlertDialogDescription>
-              {modalDescription || t('delete_confirmation_description')}
+              {modalDescription || t('common.delete_confirmation_description')}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>{t('cancel')}</AlertDialogCancel>
+            <AlertDialogCancel>{t('common.cancel')}</AlertDialogCancel>
             <AlertDialogAction onClick={onConfirm}>
-              {t('confirm')}
+              {t('common.confirm')}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

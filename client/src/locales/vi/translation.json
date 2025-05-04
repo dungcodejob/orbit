@@ -37,5 +37,10 @@
   "product.updated_at": "Ngày cập nhật",
   "product.input_name_to_search": "Nhập tên sản phẩm để tìm kiếm",
   "product.update": "Cập nhật",
-  "product.clone": "Nhân bản"
+  "product.clone": "Nhân bản",
+  "common.delete": "Xóa",
+  "common.delete_confirmation": "Xác nhận xóa",
+  "common.delete_confirmation_description": "Bạn có chắc chắn muốn xóa mục này? Hành động này không thể hoàn tác.",
+  "common.cancel": "Hủy",
+  "common.confirm": "Xác nhận"
 }
