@@ -1,4 +1,7 @@
-import { CURRENT_PAGE_DEFAULT, PAGE_SIZE_DEFAULT } from "@/constants/default-values";
+import {
+  CURRENT_PAGE_DEFAULT,
+  PAGE_SIZE_DEFAULT,
+} from '@/constants/default-values';
 
 export const cleanEmptyParams = <
   T extends Record<string, unknown> & { pageIndex?: number; pageSize?: number },
@@ -6,7 +9,10 @@ export const cleanEmptyParams = <
   search: T,
 ) => {
   const newSearch = { ...search };
-  if ('pageIndex' in newSearch && newSearch.pageIndex === CURRENT_PAGE_DEFAULT) {
+  if (
+    'pageIndex' in newSearch &&
+    newSearch.pageIndex === CURRENT_PAGE_DEFAULT
+  ) {
     newSearch.pageIndex = undefined;
   }
   if ('pageSize' in newSearch && newSearch.pageSize === PAGE_SIZE_DEFAULT) {

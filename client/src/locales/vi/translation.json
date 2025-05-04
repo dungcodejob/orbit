@@ -31,5 +31,11 @@
   "pagination.next": "Tiếp",
   "pagination.page_of": "Trang {{currentPage}} trên {{totalPages}}",
   "pagination.display_items": "Hiển thị từ {{start}} đến {{end}} trong tổng số {{totalItems}} mục",
-  "pagination.page": "trang"
-} 
+  "pagination.page": "trang",
+  "product.product_name": "Tên sản phẩm",
+  "product.created_at": "Ngày tạo",
+  "product.updated_at": "Ngày cập nhật",
+  "product.input_name_to_search": "Nhập tên sản phẩm để tìm kiếm",
+  "product.update": "Cập nhật",
+  "product.clone": "Nhân bản"
+}

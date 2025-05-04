@@ -6,6 +6,5 @@ export const WEEK = 7 * DAY;
 
 export const PAGE_SIZE_OPTIONS = [10, 25, 50, 100];
 
-
 export const PAGE_SIZE_DEFAULT = PAGE_SIZE_OPTIONS[0];
 export const CURRENT_PAGE_DEFAULT = 1;

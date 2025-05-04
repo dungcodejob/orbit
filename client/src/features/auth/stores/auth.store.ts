@@ -29,14 +29,18 @@ export const useAuthStore = create<AuthStore>()(
       login: (data) => {
         return authApi
           .login(data)
-          .then((res) => set({ isAuthenticated: true, tokens: res.data.tokens }));
+          .then((res) =>
+            set({ isAuthenticated: true, tokens: res.data.tokens }),
+          );
       },
       logout: () =>
-        authApi.logout().then(() => set({ isAuthenticated: false, tokens: null })),
+        authApi
+          .logout()
+          .then(() => set({ isAuthenticated: false, tokens: null })),
     }),
     {
       name: STORAGE_KEYS.AUTH,
       storage: createJSONStorage(() => localStorage),
-    }
-  )
+    },
+  ),
 );

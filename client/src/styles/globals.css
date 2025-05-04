@@ -43,7 +43,6 @@
   --soft: var(--color-gray-400);
   --soft-foreground: var(--color-gray-300);
   --week: var(--color-neutral-50);
-
 }
 
 .dark {
@@ -83,7 +82,6 @@
   --soft: var(--color-gray-500);
   --soft-foreground: var(--color-gray-600);
   --week: var(--color-neutral-900);
-  
 }
 
 @theme inline {

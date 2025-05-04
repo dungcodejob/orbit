@@ -13,11 +13,13 @@ let mockProducts = Array.from({ length: 30 }).map((_, i) => ({
 }));
 
 export function registerProductRoutes(app: Express) {
-  // GET /api/products - load all products, support keyword search
-  app.get('/api/products', (req, res) => {
-    const { keyword } = req.query;
+  // GET /api/products - load all products, support keyword search and pagination
+  app.get('/products', (req, res) => {
+    const { keyword, currentPage = 1, pageSize = 10 } = req.query;
+
     let filtered = mockProducts;
 
+    // Search filter
     if (keyword && typeof keyword === 'string') {
       const lowerKeyword = keyword.toLowerCase();
       filtered = filtered.filter(
@@ -27,11 +29,24 @@ export function registerProductRoutes(app: Express) {
       );
     }
 
-    res.json(filtered);
+    // Pagination
+    const page = Number(currentPage) || 1;
+    const size = Number(pageSize) || 10;
+    const total = filtered.length;
+    const start = (page - 1) * size;
+    const end = start + size;
+    const items = filtered.slice(start, end);
+
+    res.json({
+      items,
+      total,
+      currentPage: page,
+      pageSize: size,
+    });
   });
 
   // GET /api/products/:id - load single product
-  app.get('/api/products/:id', (req, res) => {
+  app.get('/products/:id', (req, res) => {
     const product = mockProducts.find((p) => p.id === req.params.id);
     if (!product) {
       return res.status(404).json({ message: 'Product not found' });
@@ -40,7 +55,7 @@ export function registerProductRoutes(app: Express) {
   });
 
   // PUT /api/products/:id - update product
-  app.put('/api/products/:id', (req, res) => {
+  app.put('/products/:id', (req, res) => {
     const index = mockProducts.findIndex((p) => p.id === req.params.id);
     if (index === -1) {
       return res.status(404).json({ message: 'Product not found' });
@@ -55,7 +70,7 @@ export function registerProductRoutes(app: Express) {
   });
 
   // DELETE /api/products/:id - delete product
-  app.delete('/api/products/:id', (req, res) => {
+  app.delete('/products/:id', (req, res) => {
     const index = mockProducts.findIndex((p) => p.id === req.params.id);
     if (index === -1) {
       return res.status(404).json({ message: 'Product not found' });
