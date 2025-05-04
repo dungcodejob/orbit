@@ -40,7 +40,6 @@ export const RowActionDelete = forwardRef<HTMLDivElement, RowActionDeleteProps>(
           </DropdownMenuItem>
         </AlertDialogTrigger>
         <AlertDialogContent>
-
           <AlertDialogHeader>
             <AlertDialogTitle>
               {modalTitle || t('common.delete_confirmation')}

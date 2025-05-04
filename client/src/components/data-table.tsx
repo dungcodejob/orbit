@@ -16,7 +16,15 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import { Dispatch, PropsWithChildren, SetStateAction, useContext, useEffect, useMemo, useState } from 'react';
+import {
+  Dispatch,
+  PropsWithChildren,
+  SetStateAction,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   Table,
@@ -37,10 +45,12 @@ import { InputWithIcon } from './input-with-icon';
 import PaginationControls from './pagination-controls';
 import { recursiveCloneChildren } from '@/utils/recursive-clone-children';
 
-const DataTableContext = React.createContext<{ keyword: string, setKeyword: Dispatch<SetStateAction<string>> }>({ keyword: '', setKeyword: () => { } });
+const DataTableContext = React.createContext<{
+  keyword: string;
+  setKeyword: Dispatch<SetStateAction<string>>;
+}>({ keyword: '', setKeyword: () => {} });
 
 const DATA_TABLE_FILTER_NAME = 'DataTableFilter';
-
 
 type DataTableFilterProps = React.ComponentProps<'div'> & {
   keyword?: string;
@@ -49,9 +59,15 @@ type DataTableFilterProps = React.ComponentProps<'div'> & {
   onKeywordChange?: (value: string) => void;
 } & PropsWithChildren;
 
-
-export function DataTableFilter({ keyword: defaultKeyword = '', placeholder, onKeywordChange, enableColumnFilters, children, className, ...rest }: DataTableFilterProps) {
-
+export function DataTableFilter({
+  keyword: defaultKeyword = '',
+  placeholder,
+  onKeywordChange,
+  enableColumnFilters,
+  children,
+  className,
+  ...rest
+}: DataTableFilterProps) {
   const { keyword, setKeyword } = useContext(DataTableContext);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -67,16 +83,18 @@ export function DataTableFilter({ keyword: defaultKeyword = '', placeholder, onK
     setKeyword(defaultKeyword);
   }, [defaultKeyword]);
 
-  return <div className={cn("flex items-center gap-4 mb-4", className)} {...rest}>
-    <InputWithIcon
-      startIcon={RiSearch2Line}
-      className="h-9 "
-      defaultValue={keyword}
-      placeholder={placeholder}
-      onChange={handleSearchChange}
-    />
-    {children}
-  </div>;
+  return (
+    <div className={cn('flex items-center gap-4 mb-4', className)} {...rest}>
+      <InputWithIcon
+        startIcon={RiSearch2Line}
+        className="h-9 "
+        defaultValue={keyword}
+        placeholder={placeholder}
+        onChange={handleSearchChange}
+      />
+      {children}
+    </div>
+  );
 }
 
 DataTableFilter.displayName = DATA_TABLE_FILTER_NAME;
@@ -116,15 +134,16 @@ type DataTableProps<T extends object> = {
   enableRowNumbers?: boolean;
   asChild?: boolean;
 } & (
-    | {
+  | {
       enableRowActions: true;
       renderRowActions: (row: Row<T>) => React.ReactNode;
     }
-    | {
+  | {
       enableRowActions?: false;
       renderRowActions?: never;
     }
-  ) & PropsWithChildren;
+) &
+  PropsWithChildren;
 
 export function DataTable<T extends object>({
   // Columns
@@ -162,14 +181,12 @@ export function DataTable<T extends object>({
   enableRowActions = false,
   renderRowActions,
   children,
-  asChild
-
+  asChild,
 }: DataTableProps<T>) {
   const { t } = useTranslation();
   const [sorting, setSorting] = useState<SortingState>(defaultSorting);
   const [pagination, setPagination] =
     useState<PaginationState>(defaultPagination);
-
 
   const [searchValue, setSearchValue] = useState('');
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -185,7 +202,6 @@ export function DataTable<T extends object>({
   );
 
   const enableFiltering = !!extendedChildren;
-
 
   // Handle sorting changes (internal or external)
   const handleSortingChange: OnChangeFn<SortingState> = (updater) => {
@@ -210,8 +226,6 @@ export function DataTable<T extends object>({
       onPaginationChange(newPagination);
     }
   };
-
-
 
   const generateColumns = useMemo(() => {
     const generatedColumns: ColumnDef<T>[] = [];
@@ -293,10 +307,7 @@ export function DataTable<T extends object>({
       }}
     >
       <div className="w-full">
-        {enableFiltering &&
-          extendedChildren
-        }
-
+        {enableFiltering && extendedChildren}
 
         <div className="w-full">
           <Table className="text-paragraph-sm">
@@ -312,7 +323,7 @@ export function DataTable<T extends object>({
                         <div
                           className={cn(
                             header.column.getCanSort() &&
-                            'flex h-full cursor-pointer items-center gap-2 select-none',
+                              'flex h-full cursor-pointer items-center gap-2 select-none',
                           )}
                           onClick={header.column.getToggleSortingHandler()}
                           onKeyDown={(e) => {
@@ -369,9 +380,9 @@ export function DataTable<T extends object>({
                           {cell.column.id === 'staticRowIndex'
                             ? pagination.pageIndex * pagination.pageSize + i + 1
                             : flexRender(
-                              cell.column.columnDef.cell,
-                              cell.getContext(),
-                            )}
+                                cell.column.columnDef.cell,
+                                cell.getContext(),
+                              )}
                         </TableCell>
                       ))}
                     </TableRow>
