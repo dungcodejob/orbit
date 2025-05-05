@@ -1,12 +1,13 @@
 import { createFileRoute, Outlet, redirect } from '@tanstack/react-router';
-import { useEffect, type PropsWithChildren } from 'react';
+import { useEffect } from 'react';
 
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
-import { AppSidebar } from '../components/app-sidebar';
-import { SiteHeader } from '../components/header';
-import { useAuthStore } from '@/features/auth/stores';
 import { useAccount } from '@/features/account/hooks/use-account';
 import { useAccountStore } from '@/features/account/stores';
+import { useAuthStore } from '@/features/auth/stores';
+import { AppSidebar } from '../components/app-sidebar';
+import { SiteHeader } from '../components/header';
+import SubSidebarMenu from '../components/sub-sidebar-menu';
 
 export const Route = createFileRoute('/_(authenticated)')({
   component: AuthenticatedLayout,
@@ -33,16 +34,44 @@ export function AuthenticatedLayout() {
   useEffect(() => {
     console.log(account);
   }, [account]);
+
+  const subMenu = true;
+
   return (
     <SidebarProvider>
       <AppSidebar />
       <SidebarInset>
-        <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
+
+        <div className="flex h-full">
+
+
+          {subMenu ? (
+            <SubSidebarMenu
+
+            />
+          ) : (
+            <div className="w-0" />
+          )}
+
+          <div className='flex-1'>
+            <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
+              <SiteHeader />
+            </header>
+
+
+
+            <div className="relative z-50 mx-auto flex w-full max-w-[1360px] flex-1 flex-col self-stretch">
+              <Outlet />
+            </div>
+          </div>
+        </div>
+
+        {/* <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
           <SiteHeader />
         </header>
         <div className="relative z-50 mx-auto flex w-full max-w-[1360px] flex-1 flex-col self-stretch">
           <Outlet />
-        </div>
+        </div> */}
       </SidebarInset>
     </SidebarProvider>
   );

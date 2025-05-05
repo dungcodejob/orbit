@@ -18,7 +18,28 @@ import {
   SidebarMenuSubItem,
 } from '@/components/ui/sidebar';
 import { RemixiconComponentType } from '@remixicon/react';
+import { useLocation } from '@tanstack/react-router';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+
+
+const findCurrentMenuItem = (
+  menuItems: NavItem[],
+  pathname: string,
+): NavItem | null => {
+  for (const item of menuItems) {
+    if (item.items) {
+      const found = findCurrentMenuItem(item.items, pathname);
+      if (found) {
+        return found;
+      }
+    }
+    if (item.url && pathname.startsWith(item.url)) {
+      return item;
+    }
+  }
+  return null;
+};
 
 export type NavItem = {
   title: string;
@@ -41,6 +62,22 @@ export function NavMain({
   items: NavItem[];
 }) {
   const { t } = useTranslation();
+  const { pathname } = useLocation();
+  const activeItem = useMemo(() => {
+
+    const current = findCurrentMenuItem(items, pathname);
+    if (!current || current.items?.length) {
+      return null;
+    }
+
+    return current;
+
+  },[items,pathname])
+
+  console.log('findCurrentMenuItem',findCurrentMenuItem(items, pathname));
+  console.log('pathname',pathname);
+  console.log('activeItem',activeItem)
+
   return (
     <SidebarGroup>
       <SidebarGroupLabel>{title}</SidebarGroupLabel>
@@ -54,7 +91,8 @@ export function NavMain({
           >
             <SidebarMenuItem>
               <CollapsibleTrigger asChild>
-                <SidebarMenuButton tooltip={item.title} className="h-9">
+                <SidebarMenuButton tooltip={item.title} isActive={activeItem?.url === item.url} className="h-9">
+                
                   {item.icon && <item.icon className="!w-5 !h-5" />}
                   <span>{item.title}</span>
                   <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
@@ -65,8 +103,11 @@ export function NavMain({
                   {!item.hide_children &&
                     item.items?.map((subItem) => (
                       <SidebarMenuSubItem key={subItem.title}>
-                        <SidebarMenuSubButton asChild className="h-9">
+                        <SidebarMenuSubButton asChild className="h-9" isActive={activeItem?.url === subItem.url}>
+                       
                           <a href={subItem.url}>
+                        
+                    
                             {subItem.icon && (
                               <subItem.icon className="!w-5 !h-5" />
                             )}

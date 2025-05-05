@@ -1,3 +1,4 @@
+import { Separator } from '@/components/ui/separator';
 import {
   Sidebar,
   SidebarContent,
@@ -5,23 +6,6 @@ import {
   SidebarHeader,
   SidebarRail,
 } from '@/components/ui/sidebar';
-import { Link } from '@tanstack/react-router';
-import {
-  AudioWaveform,
-  BookOpen,
-  Bot,
-  Command,
-  Frame,
-  GalleryVerticalEnd,
-  PieChart,
-  Settings2,
-  SquareTerminal,
-} from 'lucide-react';
-import { NavItem, NavMain } from './nav-main';
-import { NavProjects } from './nav-projects';
-import { NavUser } from './nav-user';
-import { TeamSwitcher } from './team-switcher';
-import { Separator } from '@/components/ui/separator';
 import {
   RiBankCardLine,
   RiBarChartBoxLine,
@@ -54,14 +38,33 @@ import {
   RiUserAddLine,
   RiWebhookLine,
 } from '@remixicon/react';
+import { useLocation } from '@tanstack/react-router';
+import {
+  AudioWaveform,
+  BookOpen,
+  Bot,
+  Command,
+  Frame,
+  GalleryVerticalEnd,
+  PieChart,
+  Settings2
+} from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { NavItem, NavMain } from './nav-main';
+import { NavUser } from './nav-user';
+import { TeamSwitcher } from './team-switcher';
+
+
+
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { t } = useTranslation();
+  const { pathname } = useLocation();
+
+
   const navMain: NavItem[] = [
     {
       title: t('product.products'),
-      url: '#',
       icon: RiShoppingBag2Line,
       isActive: true,
       items: [
@@ -87,6 +90,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           url: '/daily-menus',
         },
       ],
+      
     },
     {
       title: 'Models',
@@ -400,6 +404,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       show_sub_sidebar: true,
     },
   ];
+
+
 
   return (
     <Sidebar collapsible="icon" {...props}>

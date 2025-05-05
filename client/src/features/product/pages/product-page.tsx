@@ -5,7 +5,7 @@ import { useFilters } from '@/hooks/use-filters';
 import { ProductFilter } from '../components/product-filter';
 import { ProductTable } from '../components/product-table';
 
-export const Route = createFileRoute('/_(authenticated)/product')({
+export const Route = createFileRoute('/_(authenticated)/products')({
   component: ProductPage,
   validateSearch: () => ({}) as Partial<ProductQueryParams>,
 });

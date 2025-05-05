@@ -6,7 +6,7 @@ export const routes = rootRoute('root.tsx', [
     './features/shell/screens/authenticated-layout.tsx',
     [
       index('./features/home/pages/home.tsx'),
-      route('/product', './features/product/pages/product-page.tsx'),
+      route('/products', './features/product/pages/product-page.tsx'),
       route(
         '/product/$productId',
         './features/product/pages/update-product-page.tsx',
