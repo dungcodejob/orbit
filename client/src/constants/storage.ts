@@ -1,4 +1,6 @@
 export const STORAGE_KEYS = {
   AUTH: 'auth-storage',
-  // Add more storage keys here as needed
+  THEME: 'theme-storage',
+  LANGUAGE: 'language-storage',
+  // ... more keys
 } as const;
