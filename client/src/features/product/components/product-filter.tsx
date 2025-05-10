@@ -11,9 +11,9 @@ import {
 } from '@remixicon/react';
 
 import { InputWithIcon } from '@/components/input-with-icon';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Button } from '@/components/ui/button';
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
+import type { TypeSafe } from '@/types';
 
 type ProductFilterProps = {
   keyword?: string;
@@ -41,7 +41,7 @@ export function ProductFilter(props: ProductFilterProps) {
         <ToggleGroup
           value={viewType}
           type="single"
-          onValueChange={(v) => setViewType(v as any)}
+          onValueChange={(v) => setViewType(v as TypeSafe)}
           className="flex h-9 items-center rounded-10 bg-bg-white-0 px-0.5 ring-1 ring-inset ring-input"
         >
           <ToggleGroupItem

@@ -1,22 +1,12 @@
 'use client';
-import { ChevronDown, LucideIcon } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
 
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
 import { Button, buttonVariants } from '@/components/ui/button';
-import { cn } from '@/utils/cn';
-import { Link, useLocation } from '@tanstack/react-router';
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
 } from '@/components/ui/collapsible';
-import { useState } from 'react';
-import { NavItem } from './nav-item';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -25,8 +15,18 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
+import { cn } from '@/utils/cn';
 import { DropdownMenuArrow } from '@radix-ui/react-dropdown-menu';
-import { MenuItem } from './nav-group';
+import { Link, useLocation } from '@tanstack/react-router';
+import { useState } from 'react';
+import type { MenuItem } from './nav-group';
+import { NavItem } from './nav-item';
 
 type NavProps = {
   isCollapsed?: boolean;
@@ -72,13 +72,12 @@ export function NavItemCollapse({
             {item.title}
           </DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <div className='flex flex-col'>
-            {item.children?.map((item, index) => {
+          <div className="flex flex-col">
+            {item.children?.map((item) => {
               const isActive =
                 !!item.url && !item.groups && pathname.includes(item.url);
               return (
-                <DropdownMenuItem key={index} asChild>
-
+                <DropdownMenuItem key={item.id} asChild>
                   <Link
                     to={item.url}
                     className={cn(
@@ -141,19 +140,18 @@ export function NavItemCollapse({
       </CollapsibleTrigger>
       <CollapsibleContent className="overflow-hidden data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down">
         <div className="grid gap-1 pl-7 group-[[data-collapsed=true]]:justify-center group-[[data-collapsed=true]]:px-2">
-          {item.children &&
-            item.children.map((item, index) => {
-              const isActive =
-                !!item.url && !item.groups && pathname.includes(item.url);
-              return (
-                <NavItem
-                  key={index}
-                  item={item}
-                  isCollapsed={isCollapsed}
-                  isActive={isActive}
-                />
-              );
-            })}
+          {item.children?.map((item) => {
+            const isActive =
+              !!item.url && !item.groups && pathname.includes(item.url);
+            return (
+              <NavItem
+                key={item.id}
+                item={item}
+                isCollapsed={isCollapsed}
+                isActive={isActive}
+              />
+            );
+          })}
         </div>
       </CollapsibleContent>
     </Collapsible>

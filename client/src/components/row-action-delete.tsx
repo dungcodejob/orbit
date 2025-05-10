@@ -1,3 +1,4 @@
+import { RiDeleteBinLine } from '@remixicon/react';
 import { forwardRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -12,7 +13,6 @@ import {
   AlertDialogTrigger,
 } from './ui/alert-dialog';
 import { DropdownMenuItem } from './ui/dropdown-menu';
-import { RiDeleteBinLine } from '@remixicon/react';
 
 type RowActionDeleteProps = {
   buttonLabel?: string;

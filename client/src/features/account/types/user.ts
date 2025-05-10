@@ -1,4 +1,4 @@
-import { DateOrDateTimeString } from '@/types';
+import type { DateOrDateTimeString } from '@/types';
 
 export interface User {
   id: string;

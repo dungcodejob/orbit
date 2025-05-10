@@ -1,14 +1,14 @@
 'use client';
-import { LucideIcon } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 
+import { useSidebar } from '@/components/ui/sidebar';
+import type { RemixiconComponentType } from '@remixicon/react';
+import { useLocation } from '@tanstack/react-router';
 import { NavItem } from './nav-item';
 import { NavItemCollapse } from './nav-item-collapse';
-import { useSidebar } from '@/components/ui/sidebar';
-import { RemixiconComponentType } from '@remixicon/react';
-import { useLocation } from '@tanstack/react-router';
 
 export type MenuGroup = {
-  id: string,
+  id: string;
   title: string;
   url?: string;
   items: MenuItem[];

@@ -1,8 +1,8 @@
 import * as React from 'react';
 
-import { LucideIcon } from 'lucide-react';
 import { cn } from '@/utils/cn';
-import { RemixiconComponentType } from '@remixicon/react';
+import type { RemixiconComponentType } from '@remixicon/react';
+import type { LucideIcon } from 'lucide-react';
 
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {

@@ -2,8 +2,8 @@ import { STORAGE_KEYS } from '@/constants/storage';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 import { authApi } from '../services';
-import { AuthResult } from '../types';
-import { LoginCredentials } from '../types/login-credentials';
+import type { AuthResult } from '../types';
+import type { LoginCredentials } from '../types/login-credentials';
 
 type AuthState =
   | {

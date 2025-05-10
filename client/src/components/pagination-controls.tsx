@@ -21,6 +21,7 @@ import {
 } from '@remixicon/react';
 import { type FC, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Button, buttonVariants } from './ui/button';
 import {
   Select,
   SelectContent,
@@ -28,7 +29,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from './ui/select';
-import { Button, buttonVariants } from './ui/button';
 
 export const getPageNumbers = (
   totalPages: number,

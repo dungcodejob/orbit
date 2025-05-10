@@ -2,6 +2,13 @@ import {
   CURRENT_PAGE_DEFAULT,
   PAGE_SIZE_DEFAULT,
 } from '@/constants/default-values';
+import { cn } from '@/utils/cn';
+import { recursiveCloneChildren } from '@/utils/recursive-clone-children';
+import {
+  RiArrowDownSLine,
+  RiArrowUpSLine,
+  RiSearch2Line,
+} from '@remixicon/react';
 import {
   type ColumnDef,
   type ColumnFiltersState,
@@ -16,16 +23,18 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import {
-  Dispatch,
-  PropsWithChildren,
-  SetStateAction,
+import React, {
+  type Dispatch,
+  type PropsWithChildren,
+  type SetStateAction,
   useContext,
   useEffect,
   useMemo,
   useState,
 } from 'react';
 import { useTranslation } from 'react-i18next';
+import { InputWithIcon } from './input-with-icon';
+import PaginationControls from './pagination-controls';
 import {
   Table,
   TableBody,
@@ -34,16 +43,6 @@ import {
   TableHeader,
   TableRow,
 } from './ui/table';
-import React from 'react';
-import {
-  RiArrowDownSLine,
-  RiArrowUpSLine,
-  RiSearch2Line,
-} from '@remixicon/react';
-import { cn } from '@/utils/cn';
-import { InputWithIcon } from './input-with-icon';
-import PaginationControls from './pagination-controls';
-import { recursiveCloneChildren } from '@/utils/recursive-clone-children';
 
 const DataTableContext = React.createContext<{
   keyword: string;
@@ -81,7 +80,7 @@ export function DataTableFilter({
 
   useEffect(() => {
     setKeyword(defaultKeyword);
-  }, [defaultKeyword]);
+  }, [defaultKeyword, setKeyword]);
 
   return (
     <div className={cn('flex items-center gap-4 mb-4', className)} {...rest}>

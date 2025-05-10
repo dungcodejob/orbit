@@ -2,16 +2,16 @@
 
 import { ChevronDown, LucideIcon } from 'lucide-react';
 
+import { buttonVariants } from '@/components/ui/button';
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { buttonVariants } from '@/components/ui/button';
 import { cn } from '@/utils/cn';
 import { Link } from '@tanstack/react-router';
+import type { MenuItem } from './nav-group';
 import { NavItemCollapse } from './nav-item-collapse';
-import { MenuItem } from './nav-group';
 
 type NavProps = {
   isCollapsed?: boolean;

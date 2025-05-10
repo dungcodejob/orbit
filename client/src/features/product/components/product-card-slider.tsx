@@ -1,21 +1,21 @@
 'use client';
 
+import type { EmblaCarouselType } from 'embla-carousel';
 import React, {
-  ComponentPropsWithRef,
+  type ComponentPropsWithRef,
   useCallback,
   useEffect,
+  useId,
   useState,
 } from 'react';
-import { EmblaCarouselType } from 'embla-carousel';
-import useEmblaCarousel from 'embla-carousel-react';
 
-import { cn } from '@/utils/cn';
 import {
   Carousel,
-  CarouselApi,
+  type CarouselApi,
   CarouselContent,
   CarouselItem,
 } from '@/components/ui/carousel';
+import { cn } from '@/utils/cn';
 
 type UseDotButtonType = {
   selectedIndex: number;
@@ -88,7 +88,7 @@ export const ProductImagesSlider = ({ slides }: CarouselProps) => {
         <Carousel setApi={setApi} className="embla__container">
           <CarouselContent>
             {slides.map((slide, i) => (
-              <CarouselItem className="embla__slide w-full" key={i}>
+              <CarouselItem className="embla__slide w-full" key={useId()}>
                 <img
                   src={slide}
                   alt=""
@@ -105,7 +105,7 @@ export const ProductImagesSlider = ({ slides }: CarouselProps) => {
       <div className="absolute left-4 top-4 flex gap-1.5">
         {scrollSnaps.map((_, index) => (
           <DotButton
-            key={index}
+            key={`dot-${_}`}
             onClick={() => onDotButtonClick(index)}
             className={cn(index === selectedIndex ? 'w-4 bg-soft' : '')}
           />

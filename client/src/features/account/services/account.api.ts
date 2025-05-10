@@ -1,10 +1,11 @@
 import { apiClient } from '@/api/api.client';
-import { User } from '../types';
+import type { TypeSafe } from '@/types';
+import type { User } from '../types';
 
 export const accountApi = {
-  getAccount: async () => apiClient.get<User>(`/account`),
+  getAccount: async () => apiClient.get<User>('/account'),
 
-  updateAccount: async (id: string, account: any) => {
+  updateAccount: async (id: string, account: TypeSafe) => {
     const response = await fetch(`/account/${id}`, {
       method: 'PUT',
       body: JSON.stringify(account),

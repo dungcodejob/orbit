@@ -1,23 +1,23 @@
+import { DataTable, DataTableFilter } from '@/components/data-table';
+import { RowActionDelete } from '@/components/row-action-delete';
+import { TableActionsDropdown } from '@/components/table-actions-dropdown';
 import { useDateFormatter, useDebounceCallback, useFilters } from '@/hooks';
 import {
   Pagination,
-  PaginationResult,
+  type PaginationResult,
   Sort,
-  TanstackPagination,
-  TanstackSort,
+  type TanstackPagination,
+  type TanstackSort,
 } from '@/types';
-import { useMemo } from 'react';
-import { Route } from '../pages/product-page';
-import { ColumnDef, OnChangeFn } from '@tanstack/react-table';
-import { DataTable, DataTableFilter } from '@/components/data-table';
-import { useTranslation } from 'react-i18next';
-import { Product } from '../types';
-import { useProducts } from '../hooks/use-products';
-import { TableActionsDropdown } from '@/components/table-actions-dropdown';
-import { Link } from '@tanstack/react-router';
 import { RiFileCopyLine, RiPencilLine } from '@remixicon/react';
-import { RowActionDelete } from '@/components/row-action-delete';
+import { Link } from '@tanstack/react-router';
+import type { ColumnDef, OnChangeFn } from '@tanstack/react-table';
+import { useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useDeleteProduct } from '../hooks';
+import { useProducts } from '../hooks/use-products';
+import { Route } from '../pages/product-page';
+import type { Product } from '../types';
 
 export function ProductTable() {
   const { filters, setFilters } = useFilters(Route.id);
@@ -153,7 +153,7 @@ export function ProductTable() {
           keyword={filters.keyword}
           placeholder={t('product.input_name_to_search')}
           onKeywordChange={onSearchChange}
-        ></DataTableFilter>
+        />
       </DataTable>
     </div>
   );

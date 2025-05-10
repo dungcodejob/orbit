@@ -1,6 +1,6 @@
 import { useAuthStore } from '@/features/auth/stores';
-import { TypeSafe } from '@/types';
-import { createFileRoute, Outlet, redirect } from '@tanstack/react-router';
+import type { TypeSafe } from '@/types';
+import { Outlet, createFileRoute, redirect } from '@tanstack/react-router';
 
 const fallback = '/' as const;
 

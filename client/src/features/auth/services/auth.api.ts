@@ -1,5 +1,5 @@
-import { AuthResult, LoginCredentials } from '../types';
 import { apiClient } from '@/api/api.client';
+import type { AuthResult, LoginCredentials } from '../types';
 
 export const authApi = {
   login: (data: LoginCredentials) =>

@@ -1,5 +1,5 @@
 import { ThemeProvider } from 'next-themes';
-import * as React from 'react';
+import type * as React from 'react';
 import { QueryProvider } from './query.provider';
 
 export function Providers({ children }: React.PropsWithChildren) {

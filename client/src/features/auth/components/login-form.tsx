@@ -81,7 +81,7 @@ export function LoginForm({
                       <div className="flex items-center justify-between">
                         <FormLabel>{t('auth.login.password')}</FormLabel>
                         <a
-                          href="#"
+                          href="/"
                           className="ml-auto text-sm underline-offset-2 hover:underline"
                         >
                           {t('auth.login.forgot_password')}
@@ -140,7 +140,7 @@ export function LoginForm({
                 </div>
                 <div className="text-center text-sm">
                   {t('auth.login.no_account')}
-                  <a href="#" className="underline underline-offset-4">
+                  <a href="/" className="underline underline-offset-4">
                     {t('auth.login.sign_up')}
                   </a>
                 </div>
@@ -148,15 +148,15 @@ export function LoginForm({
             </form>
           </Form>
           <div className="relative hidden bg-muted md:block">
-            <div className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"></div>
+            <div className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale" />
           </div>
         </CardContent>
       </Card>
       <div className="text-balance text-center text-xs text-muted-foreground [&_a]:underline [&_a]:underline-offset-4 hover:[&_a]:text-primary">
         {t('auth.login.terms')}
-        <a href="#">{t('auth.login.terms_of_service')}</a>
+        <a href="/">{t('auth.login.terms_of_service')}</a>
         {t('common.and')}
-        <a href="#">{t('auth.login.privacy_policy')}</a>.
+        <a href="/">{t('auth.login.privacy_policy')}</a>.
       </div>
     </div>
   );

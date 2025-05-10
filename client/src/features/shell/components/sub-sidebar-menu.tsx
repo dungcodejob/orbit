@@ -1,11 +1,11 @@
 'use client';
 
-import { useLocation, useNavigate } from '@tanstack/react-router';
-import { useEffect, type FC } from 'react';
-import { NavItem } from './nav-item';
 import { Separator } from '@/components/ui/separator';
-import { MenuGroup } from './nav-group';
 import { useSidebar } from '@/components/ui/sidebar';
+import { useLocation, useNavigate } from '@tanstack/react-router';
+import { type FC, useEffect } from 'react';
+import type { MenuGroup } from './nav-group';
+import { NavItem } from './nav-item';
 
 type SubSidebarMenuProps = {
   title: string;

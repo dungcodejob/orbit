@@ -9,21 +9,14 @@ import {
   RiArrowRightUpLine,
   RiMore2Line,
 } from '@remixicon/react';
-import {
-  CartesianGrid,
-  Line,
-  LineChart,
-  ResponsiveContainer,
-  XAxis,
-  YAxis,
-} from 'recharts';
 
 import { cn } from '@/utils/cn';
 
 // import { DashedDivider } from '@/components/dashed-divider';
 
 import { Button } from '@/components/ui/button';
-import { ProductData } from './data';
+import type { TypeSafe } from '@/types';
+import type { ProductData } from './data';
 import { ProductImagesSlider } from './product-card-slider';
 
 const salesData = [
@@ -178,7 +171,7 @@ export function ProductCard({ images, name: title, category }: ProductData) {
               type="single"
               defaultValue="sales"
               value={activeTab}
-              onValueChange={(v) => setActiveTab(v as any)}
+              onValueChange={(v) => setActiveTab(v as TypeSafe)}
               className="grid grid-cols-3 gap-2 w-full"
             >
               <ToggleGroupItem

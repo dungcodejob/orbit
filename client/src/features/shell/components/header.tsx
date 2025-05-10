@@ -1,19 +1,19 @@
 import { Button } from '@/components/ui/button';
+import { SidebarTrigger } from '@/components/ui/sidebar';
 import { Link } from '@tanstack/react-router';
 import { ModeSwitcher } from './mode-switcher';
-import { SidebarTrigger } from '@/components/ui/sidebar';
 
 import {
   Breadcrumb,
-  BreadcrumbList,
   BreadcrumbItem,
   BreadcrumbLink,
-  BreadcrumbSeparator,
+  BreadcrumbList,
   BreadcrumbPage,
+  BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
+import { Separator } from '@/components/ui/separator';
 import { Search } from 'lucide-react';
 import { SearchMenu } from './search-menu';
-import { Separator } from '@/components/ui/separator';
 
 export function SiteHeader() {
   return (

@@ -1,13 +1,10 @@
 import Masonry from 'react-masonry-css';
 
-import { productsData } from './data';
-import { ProductCard } from './product-card';
-import { useProducts } from '../hooks/use-products';
-import { PaginationResult } from '@/types/pagination';
-import { Product } from '../types/product';
+import type { PaginationResult } from '@/types/pagination';
 import { useMemo } from 'react';
-import { useFilters } from '@/hooks/use-filters';
-import { Route } from '../pages/product-page';
+import { useProducts } from '../hooks/use-products';
+import type { Product } from '../types/product';
+import { ProductCard } from './product-card';
 
 const breakpointColumnsObj = {
   default: 4,
@@ -30,8 +27,8 @@ export function ProductsList() {
         className="-ml-6 flex"
         columnClassName="pl-6 bg-clip-padding flex flex-col gap-6 justify-start"
       >
-        {items.map((p, i) => (
-          <ProductCard key={i} {...p} />
+        {items.map((p) => (
+          <ProductCard key={p.id} {...p} />
         ))}
       </Masonry>
     </>

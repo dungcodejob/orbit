@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef } from 'react';
 
+import type { TypeSafe } from '@/types';
 import debounce from 'lodash.debounce';
 import { useUnmount } from './use-unmount';
 
@@ -15,16 +16,14 @@ type ControlFunctions = {
   isPending: () => boolean;
 };
 
-export type DebouncedState<T extends (...args: any) => ReturnType<T>> = ((
+export type DebouncedState<T extends (...args: TypeSafe) => ReturnType<T>> = ((
   ...args: Parameters<T>
 ) => ReturnType<T> | undefined) &
   ControlFunctions;
 
-export function useDebounceCallback<T extends (...args: any) => ReturnType<T>>(
-  func: T,
-  delay = 500,
-  options?: DebounceOptions,
-): DebouncedState<T> {
+export function useDebounceCallback<
+  T extends (...args: TypeSafe) => ReturnType<T>,
+>(func: T, delay = 500, options?: DebounceOptions): DebouncedState<T> {
   const debouncedFunc = useRef<ReturnType<typeof debounce>>(null);
 
   useUnmount(() => {

@@ -4,7 +4,7 @@ import { useLocation, useNavigate } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 import { useAuthStore } from '../stores';
-import { LoginCredentials } from '../types';
+import type { LoginCredentials } from '../types';
 
 interface UseLoginOptions {
   redirectTo?: string;

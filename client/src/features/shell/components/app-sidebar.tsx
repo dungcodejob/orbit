@@ -51,10 +51,10 @@ import {
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
+import { useId } from 'react';
+import { type MenuItem, NavGroup } from './nav-group';
 import { NavUser } from './nav-user';
 import { TeamSwitcher } from './team-switcher';
-import { MenuItem, NavGroup } from './nav-group';
-import { useId } from 'react';
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { t } = useTranslation();

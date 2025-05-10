@@ -1,6 +1,6 @@
 import { create } from 'zustand';
-import { User } from '../types';
 import { accountApi } from '../services';
+import type { User } from '../types';
 
 type AccountState = {
   account: User | null;

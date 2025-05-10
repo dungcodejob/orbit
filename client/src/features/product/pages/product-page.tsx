@@ -1,9 +1,9 @@
-import { createFileRoute } from '@tanstack/react-router';
-import { ProductsList } from '../components/product-list';
-import { ProductQueryParams } from '../types';
 import { useFilters } from '@/hooks/use-filters';
+import { createFileRoute } from '@tanstack/react-router';
 import { ProductFilter } from '../components/product-filter';
+import { ProductsList } from '../components/product-list';
 import { ProductTable } from '../components/product-table';
+import type { ProductQueryParams } from '../types';
 
 export const Route = createFileRoute('/_(authenticated)/products')({
   component: ProductPage,

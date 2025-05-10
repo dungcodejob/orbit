@@ -1,7 +1,7 @@
 import { apiClient } from '@/api/api.client';
-import { Product } from '../types/product';
-import { PaginationResult } from '@/types';
-import { ProductQueryParams } from '../types';
+import type { PaginationResult } from '@/types';
+import type { ProductQueryParams } from '../types';
+import type { Product } from '../types/product';
 
 export const productApi = {
   getProducts: (params?: ProductQueryParams, signal?: AbortSignal) =>
