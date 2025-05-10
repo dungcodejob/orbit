@@ -5,7 +5,7 @@ export const routes = rootRoute('root.tsx', [
     index('./features/home/pages/home.tsx'),
     route('/products', './features/product/pages/product-page.tsx'),
     route(
-      '/product/$productId',
+      '/products/$productId',
       './features/product/pages/update-product-page.tsx',
     ),
     route('/settings', './features/settings/pages/index.tsx'),

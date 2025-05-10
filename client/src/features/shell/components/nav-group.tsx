@@ -8,11 +8,14 @@ import { RemixiconComponentType } from '@remixicon/react';
 import { useLocation } from '@tanstack/react-router';
 
 export type MenuGroup = {
+  id: string,
   title: string;
+  url?: string;
   items: MenuItem[];
 };
 
 export type MenuItem = {
+  id: string;
   title: string;
   url?: string;
   icon?: LucideIcon | RemixiconComponentType;
@@ -52,17 +55,17 @@ export function NavGroup({ items, title, isOpen }: NavProps) {
         {items.map((item, index) =>
           item.children ? (
             <NavItemCollapse
-              key={index}
+              key={item.id}
               item={item}
               isCollapsed={isSidebarCollapsed}
               isOpen={isOpen}
             />
           ) : (
             <NavItem
-              key={index}
+              key={item.id}
               item={item}
               isCollapsed={isSidebarCollapsed}
-              isActive={!!item.url && pathname.includes(item.url)}
+              isActive={!!item.url && pathname.startsWith(item.url)}
             />
           ),
         )}

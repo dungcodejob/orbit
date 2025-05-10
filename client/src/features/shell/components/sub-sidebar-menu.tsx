@@ -31,9 +31,9 @@ const SubSidebarMenu: FC<SubSidebarMenuProps> = ({ title, groups }) => {
         </div>
         <Separator orientation="horizontal" />
         <div className="py-3">
-          {groups.map(({ items, title }) => (
+          {groups.map(({ items, title, id }) => (
             <div
-              key={title}
+              key={id}
               className="group flex flex-col gap-4 py-2 data-[collapsed=true]:py-2"
             >
               <nav className="grid gap-2 px-2 group-[[data-collapsed=true]]:justify-center group-[[data-collapsed=true]]:px-2">
@@ -41,7 +41,7 @@ const SubSidebarMenu: FC<SubSidebarMenuProps> = ({ title, groups }) => {
                   {title}
                 </div>
                 {items.map((item, index) => (
-                  <NavItem key={index} item={item} />
+                  <NavItem key={item.id} item={item} />
                 ))}
                 <Separator orientation="horizontal" className="mt-2" />
               </nav>

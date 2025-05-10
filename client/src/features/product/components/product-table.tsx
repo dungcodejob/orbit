@@ -115,7 +115,7 @@ export function ProductTable() {
                 id: 'update',
                 component: (
                   <Link
-                    to={'/product/$productId'}
+                    to={'/products/$productId'}
                     params={{ productId: row.original.id.toString() }}
                   >
                     <RiPencilLine />
@@ -127,7 +127,7 @@ export function ProductTable() {
                 id: 'clone',
                 component: (
                   <Link
-                    to={'/product/$productId'}
+                    to={'/products/$productId'}
                     params={{ productId: row.original.id.toString() }}
                   >
                     <RiFileCopyLine />
