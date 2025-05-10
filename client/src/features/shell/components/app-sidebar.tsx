@@ -47,27 +47,24 @@ import {
   Frame,
   GalleryVerticalEnd,
   PieChart,
-  Settings2
+  Settings2,
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { NavItem, NavMain } from './nav-main';
+
 import { NavUser } from './nav-user';
 import { TeamSwitcher } from './team-switcher';
-
-
-
+import { MenuItem, NavGroup } from './nav-group';
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { t } = useTranslation();
   const { pathname } = useLocation();
 
-
-  const navMain: NavItem[] = [
+  const navMain: MenuItem[] = [
     {
       title: t('product.products'),
       icon: RiShoppingBag2Line,
       isActive: true,
-      items: [
+      children: [
         {
           title: t('product.products_list'),
           icon: RiShoppingBag2Line,
@@ -90,13 +87,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           url: '/daily-menus',
         },
       ],
-      
     },
     {
       title: 'Models',
       url: '#',
       icon: Bot,
-      items: [
+      children: [
         {
           title: 'Genesis',
           url: '#',
@@ -115,7 +111,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       title: 'Documentation',
       url: '#',
       icon: BookOpen,
-      items: [
+      children: [
         {
           title: 'Introduction',
           url: '#',
@@ -138,7 +134,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       title: 'Settings',
       url: '#',
       icon: Settings2,
-      items: [
+      children: [
         {
           title: 'General',
           url: '#',
@@ -201,7 +197,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     ],
   };
 
-  const navOthers: NavItem[] = [
+  const navOthers: MenuItem[] = [
     {
       title: t('setting.integration'),
       icon: RiEqualizerLine,
@@ -211,7 +207,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       title: t('setting.establish'),
       icon: RiSettings2Line,
       url: '/settings',
-      items: [
+      groups: [
         {
           title: t('setting.general'),
           items: [
@@ -224,32 +220,32 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               title: t('setting.store_setting'),
               url: '/settings/shop',
               icon: RiStore2Line,
-              permission_key: 'basic_information',
+              permissionKey: 'basic_information',
             },
             {
               title: t('setting.set_up_roles'),
               icon: RiShieldUserLine,
               url: '/settings/roles',
-              permission_key: 'view_user_role_list',
+              permissionKey: 'view_user_role_list',
             },
             {
               title: t('setting.add_role'),
               icon: RiUserAddLine,
               url: '/settings/roles/create',
-              permission_key: 'add_edit_user_role',
-              hidden: true,
+              permissionKey: 'add_edit_user_role',
+              isHidden: true,
             },
             {
               title: t('setting.store_working_hours'),
               url: '/settings/shop-working-hour',
               icon: RiTimeLine,
-              permission_key: 'view_working_hours_list',
+              permissionKey: 'view_working_hours_list',
             },
             {
               title: t('setting.sms_zns_management'),
               url: '/settings/sms-email',
               icon: RiMailLine,
-              permission_key: 'view_transaction_history',
+              permissionKey: 'view_transaction_history',
             },
           ],
         },
@@ -265,43 +261,43 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               title: t('setting.price_list'),
               icon: RiPriceTag3Line,
               url: '/settings/price-lists',
-              permission_key: 'pricing_policy',
+              permissionKey: 'pricing_policy',
             },
             {
               title: t('setting.payment_methods'),
               icon: RiBankCardLine,
               url: '/settings/payment-methods',
-              permission_key: 'view_cash_fund_list',
+              permissionKey: 'view_cash_fund_list',
             },
             {
               title: t('setting.tax_settings'),
               url: '/settings/tax',
               icon: RiPercentLine,
-              permission_key: 'tax_setup',
+              permissionKey: 'tax_setup',
             },
             {
               title: t('setting.order_status'),
               url: '/settings/order-status',
               icon: RiRouteLine,
-              permission_key: 'order_status',
+              permissionKey: 'order_status',
             },
             {
               title: t('setting.set_up_print_templates'),
               url: '/settings/print-template',
               icon: RiPrinterLine,
-              permission_key: 'print_template_setup',
+              permissionKey: 'print_template_setup',
             },
             {
               title: t('setting.shipping_configuration'),
               url: '/settings/shipping',
               icon: RiTruckLine,
-              permission_key: 'shipping_configuration',
+              permissionKey: 'shipping_configuration',
             },
             {
               title: t('setting.electronic_scales'),
               icon: RiScales2Line,
               url: '/settings/electronic-scales',
-              permission_key: 'electronic_scale',
+              permissionKey: 'electronic_scale',
             },
           ],
         },
@@ -377,35 +373,33 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               title: t('setting.webhooks'),
               url: '/settings/webhooks',
               icon: RiWebhookLine,
-              permission_key: 'basic_information',
+              permissionKey: 'basic_information',
             },
             {
               title: t('setting.add_webhook'),
               url: '/settings/webhooks/crete',
-              permission_key: 'basic_information',
-              hidden: true,
+              permissionKey: 'basic_information',
+              isHidden: true,
             },
             {
               title: t('setting.api_keys'),
               url: '/settings/api-keys',
               icon: RiLinksLine,
-              permission_key: 'basic_information',
+              permissionKey: 'basic_information',
             },
             {
               title: t('setting.add_api_key'),
               url: '/settings/api-keys/create',
-              permission_key: 'basic_information',
-              hidden: true,
+              permissionKey: 'basic_information',
+              isHidden: true,
             },
           ],
         },
       ],
-      hide_children: true,
-      show_sub_sidebar: true,
+      isHideChildren: true,
+      isShowSubSidebar: true,
     },
   ];
-
-
 
   return (
     <Sidebar collapsible="icon" {...props}>
@@ -414,8 +408,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
       <Separator orientation="horizontal" />
       <SidebarContent>
-        <NavMain title={t('sidebar.main')} items={navMain} />
-        <NavMain title={t('sidebar.other')} items={navOthers} />
+        <NavGroup title={t('sidebar.main')} items={navMain} />
+        <NavGroup title={t('sidebar.other')} items={navOthers} />
       </SidebarContent>
       <Separator orientation="horizontal" />
       <SidebarFooter>

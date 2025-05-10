@@ -1,35 +1,52 @@
 'use client';
 
-
 import { useLocation, useNavigate } from '@tanstack/react-router';
-import { type FC } from 'react';
+import { useEffect, type FC } from 'react';
+import { NavItem } from './nav-item';
+import { Separator } from '@/components/ui/separator';
+import { MenuGroup } from './nav-group';
+import { useSidebar } from '@/components/ui/sidebar';
 
+type SubSidebarMenuProps = {
+  title: string;
+  groups: MenuGroup[];
+};
 
+const SubSidebarMenu: FC<SubSidebarMenuProps> = ({ title, groups }) => {
+  const { setOpen } = useSidebar();
 
-const SubSidebarMenu: FC = () => {
-  const { pathname } = useLocation();
-  const navigate = useNavigate();
+  useEffect(() => {
+    setOpen(false);
 
-//   return     (<Sidebar collapsible="icon">
-//   <SidebarHeader>
-    
-//   </SidebarHeader>
-//   <Separator orientation="horizontal" />
-//   <SidebarContent>
-    
-//   </SidebarContent>
-//   <Separator orientation="horizontal" />
-//   <SidebarFooter>
-   
-//   </SidebarFooter>
-//   <SidebarRail />
-// </Sidebar>)
+    return () => {
+      setOpen(true);
+    };
+  }, [setOpen]);
 
   return (
     <>
-      <div className="hidden w-[16rem] shrink-0 flex-col border-r border-stroke-soft-200 lg:flex max-h-screen overflow-hidden">
-        <div className="px-2 flex-none h-16 flex items-center">
-          <div className="text-label-lg text-text-strong-950"></div>
+      <div className="hidden bg-sidebar w-[16rem] shrink-0 flex-col border-r border-stroke-soft-200 lg:flex max-h-screen overflow-hidden">
+        <div className="px-4 flex-none h-12 flex items-center">
+          <div className="text-label-lg text-text-strong-950">{title}</div>
+        </div>
+        <Separator orientation="horizontal" />
+        <div className="py-3">
+          {groups.map(({ items, title }) => (
+            <div
+              key={title}
+              className="group flex flex-col gap-4 py-2 data-[collapsed=true]:py-2"
+            >
+              <nav className="grid gap-2 px-2 group-[[data-collapsed=true]]:justify-center group-[[data-collapsed=true]]:px-2">
+                <div className="relative flex w-full items-center px-2 py-1 text-xs font-medium text-sidebar-foreground/70">
+                  {title}
+                </div>
+                {items.map((item, index) => (
+                  <NavItem key={index} item={item} />
+                ))}
+                <Separator orientation="horizontal" className="mt-2" />
+              </nav>
+            </div>
+          ))}
         </div>
 
         {/* <Divider.Root className="px-2" />
