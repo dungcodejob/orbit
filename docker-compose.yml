@@ -1,0 +1,22 @@
+version: '3.8'
+services:
+  orbit-client:
+    build:
+      context: ./client
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+    restart: unless-stopped
+    volumes:
+      - ./client/public:/usr/share/nginx/html/public:ro
+    # Nếu muốn mount code để phát triển, có thể sửa lại Dockerfile và volume
+
+  orbit-server:
+    build:
+      context: ./server
+    ports:
+      - "4200:4200"
+    environment:
+      - NODE_ENV=production
+    restart: unless-stopped
