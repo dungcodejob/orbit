@@ -5,6 +5,7 @@ permissions:
 
 # Trigger the workflow on the following events:
 on:
+  workflow_dispatch:  # Allows manual triggering of the workflow.
   # Trigger on push to the 'develop' branch, specifically for changes in 'client' folder.
   push:
     branches: [ "develop" ]
