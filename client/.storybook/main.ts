@@ -2,8 +2,13 @@ import { dirname, join } from 'node:path';
 import type { StorybookConfig } from 'storybook-react-rsbuild';
 
 /**
- * This function is used to resolve the absolute path of a package.
- * It is needed in projects that use Yarn PnP or are set up within a monorepo.
+ * Resolves and returns the absolute directory path of a given package.
+ *
+ * @param value - The package name or path to resolve.
+ * @returns The absolute path to the directory containing the package's {@link package.json}.
+ *
+ * @remark
+ * Supports Yarn Plug'n'Play and monorepo setups by locating the package's {@link package.json} file.
  */
 function getAbsolutePath(value: string): any {
   return dirname(require.resolve(join(value, 'package.json')));
