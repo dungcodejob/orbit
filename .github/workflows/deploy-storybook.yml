@@ -1,0 +1,69 @@
+name: Deploy Storybook to GitHub Pages
+permissions:
+  id-token: write
+  contents: read
+
+# Trigger the workflow on the following events:
+on:
+  workflow_dispatch:  # Allows manual triggering of the workflow.
+  # Trigger on push to the 'develop' branch, specifically for changes in 'client' folder.
+  push:
+    branches: [ "develop" ]
+    paths:
+      - 'client/**'  # Only changes within the 'client' folder will trigger this.
+
+  # Trigger on pull requests targeting 'develop' branch, and changes in 'client' folder.
+  pull_request:
+    paths:
+      - 'client/**'  # Only changes within the 'client' folder will trigger this.
+    branches: [ "develop" ]  # This is for PRs targeting the 'develop' branch.
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # Runs the build job on the latest Ubuntu environment.
+
+    # This condition ensures the job only runs for a push to 'develop' or PR from 'feat/storybook'.
+    if: github.ref == 'refs/heads/develop' || github.head_ref == 'feat/storybook'
+
+    defaults:
+      run:
+        working-directory: client  # Run commands within the 'client' directory.
+
+    steps:
+      # Step 1: Checkout the repository code.
+      - name: Checkout
+        uses: actions/checkout@v3  # Use actions/checkout v3 to get the code.
+
+      # Step 2: Set up Bun (a JavaScript runtime) for installing dependencies.
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v2  # Use the Bun setup action.
+        with:
+          bun-version: latest  # Install the latest version of Bun.
+
+      # Step 3: Install dependencies using Bun.
+      - name: Install dependencies
+        run: bun install  # Install dependencies with Bun.
+
+      # Step 4: Build Storybook for production.
+      - name: Build Storybook
+        run: bun run build-storybook  # Run the build command for Storybook.
+
+      # Step 5: Upload the production-ready build files for deployment.
+      - name: Uploading production-ready build files
+        uses: actions/upload-pages-artifact@v3  # Use the upload-pages-artifact action to upload files.
+        id: deployment
+        with:
+          path: ./client/storybook-static  # Path to the Storybook build folder.
+
+  deploy:
+    needs: build  # Ensure 'deploy' job only runs after 'build' job completes successfully.
+    runs-on: ubuntu-latest  # Run the deploy job on the latest Ubuntu environment.
+    environment:
+      name: github-pages  # Deploy to the 'github-pages' environment.
+      url: ${{ steps.deployment.outputs.page_url }}  # URL of the deployed page.
+
+    steps:
+      # Step 1: Deploy the build files to GitHub Pages.
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4  # Use the deploy-pages action to deploy to GitHub Pages.

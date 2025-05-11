@@ -10,12 +10,16 @@ on:
         description: "Description for the Pull Request"
         required: false
 
+permissions:
+  pull-requests: write
+  contents: write
+
 jobs:
   create-pull-request:
     runs-on: ubuntu-latest
     env:
       BASE_BRANCH: develop
-      GH_TOKEN: ${{ github.token }}
+      GH_TOKEN: ${{ secrets.GH_TOKEN }}
     steps:
       - name: Check out code
         uses: actions/checkout@v3

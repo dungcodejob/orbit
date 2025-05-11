@@ -1,8 +1,22 @@
 import { index, layout, rootRoute, route } from '@tanstack/virtual-file-routes';
 
 export const routes = rootRoute('root.tsx', [
-  layout('(authenticated)', './features/shell/screens/layout.tsx', [
-    route('/about', './about.tsx'),
+  layout('(authenticated)', './features/shell/pages/authenticated-layout.tsx', [
+    index('./features/home/pages/home.tsx'),
+    route('/products', './features/product/pages/product-page.tsx'),
+    route(
+      '/products/$productId',
+      './features/product/pages/update-product-page.tsx',
+    ),
+    route('/settings', './features/settings/pages/index.tsx'),
+    route(
+      '/settings/account/profile',
+      './features/account/pages/account-profile-page.tsx',
+    ),
   ]),
-  index('./sindex.tsx'),
+  layout(
+    '(unauthenticated)',
+    './features/shell/pages/unauthenticated-layout.tsx',
+    [route('/login', './features/auth/pages/login-page.tsx')],
+  ),
 ]);

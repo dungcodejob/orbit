@@ -24,7 +24,19 @@
   "linter": {
     "enabled": true,
     "rules": {
-      "recommended": true
+      "complexity": {
+        "noStaticOnlyClass": "off"
+      },
+      "recommended": true,
+      "a11y": {
+        "noSvgWithoutTitle": "off",
+        "useSemanticElements": "off",
+        "useKeyWithClickEvents": "warn",
+        "noAriaHiddenOnFocusable": "info"
+      }
     }
+  },
+  "files": {
+    "ignore": ["src/components/ui/*.tsx", "src/routeTree.gen.ts"]
   }
 }
