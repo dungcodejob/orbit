@@ -65,4 +65,4 @@ jobs:
       # Step 1: Deploy the build files to GitHub Pages.
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v2  # Use the deploy-pages action to deploy to GitHub Pages.
+        uses: actions/deploy-pages@v4  # Use the deploy-pages action to deploy to GitHub Pages.
