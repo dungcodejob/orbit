@@ -1,4 +1,7 @@
 name: Deploy Storybook to GitHub Pages
+permissions:
+  id-token: write
+  contents: read
 
 # Trigger the workflow on the following events:
 on:
