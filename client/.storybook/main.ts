@@ -23,7 +23,7 @@ const config: StorybookConfig = {
     '@storybook/addon-links',
     '@storybook/addon-essentials',
     '@chromatic-com/storybook',
-    // '@storybook/addon-interactions',
+    '@storybook/addon-interactions',
   ],
   framework: {
     name: getAbsolutePath('storybook-react-rsbuild'),
