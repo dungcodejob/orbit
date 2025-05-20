@@ -18,17 +18,29 @@
     "strictBindCallApply": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
-      "@app/decorator": [
-        "libs/decorator/src"
+      "@app/constants": [
+        "libs/constants/src"
       ],
-      "@app/decorator/*": [
-        "libs/decorator/src/*"
+      "@app/constants/*": [
+        "libs/constants/src/*"
+      ],
+      "@app/decorators": [
+        "libs/decorators/src"
+      ],
+      "@app/decorators/*": [
+        "libs/decorators/src/*"
       ],
       "@app/prisma": [
         "libs/prisma/src"
       ],
       "@app/prisma/*": [
         "libs/prisma/src/*"
+      ],
+      "@app/utils": [
+        "libs/utils/src"
+      ],
+      "@app/utils/*": [
+        "libs/utils/src/*"
       ]
     }
   }
