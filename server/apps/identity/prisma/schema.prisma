@@ -1,6 +1,6 @@
 generator client {
   provider = "prisma-client-js"
-  output   = "../node_modules/.prisma/client"
+  output   = "../../../node_modules/.prisma/client"
 }
 
 datasource db {
@@ -16,9 +16,44 @@ model User {
   role      Role     @default(USER)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  
+  accounts  Account[]
 }
 
 enum Role {
   USER
   ADMIN
+}
+
+model Account {
+  id            String   @id @default(uuid())
+  userId        String   @unique
+  tenantId      String   
+  provider      String
+  providerId    String?  // nullable nếu là local
+  email         String   @unique
+  passwordHash  String
+  isActive      Boolean  @default(true)
+  lastLoginAt   DateTime?
+  createdAt     DateTime @default(now())
+
+  refreshToken  String?
+
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tenant        Tenant   @relation("TenantAccounts", fields: [tenantId], references: [id], onDelete: Cascade)
+  tenantOwner   Tenant?  @relation("TenantOwner")
+
+  // @@unique([tenantId, email])
+  @@index([tenantId])
+}
+
+model Tenant {
+  id         String   @id @default(uuid())
+  name       String
+  slug       String   @unique
+  ownerId    String   @unique
+  createdAt  DateTime @default(now())
+
+  owner      Account  @relation("TenantOwner", fields: [ownerId], references: [id])
+  accounts   Account[] @relation("TenantAccounts")
 }

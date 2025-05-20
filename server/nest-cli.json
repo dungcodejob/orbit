@@ -19,6 +19,15 @@
         "tsConfigPath": "apps/api-gateway/tsconfig.app.json"
       }
     },
+    "decorator": {
+      "type": "library",
+      "root": "libs/decorator",
+      "entryFile": "index",
+      "sourceRoot": "libs/decorator/src",
+      "compilerOptions": {
+        "tsConfigPath": "libs/decorator/tsconfig.lib.json"
+      }
+    },
     "identity": {
       "type": "application",
       "root": "apps/identity",
