@@ -7,37 +7,26 @@ import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
 import { JwtAuthProvider } from './providers/jwt-auth.provider';
 import { JwtStrategy } from './strategies/jwt.strategy';
+import { AccountService, BcryptService, JwtTokenService, TenantService } from './services';
+import { UserService } from '../user/user.service';
 
 
 @Module({
   imports: [
     PrismaModule,
     PassportModule,
-    JwtModule.registerAsync({
-      imports: [ConfigModule],
-      inject: [ConfigService],
-      useFactory: (configService: ConfigService) => ({
-        secret: configService.get('JWT_SECRET'),
-        signOptions: { expiresIn: '15m' },
-      }),
-    }),
+    JwtModule
   ],
   controllers: [AuthController],
   providers: [
     AuthService,
-    {
-      provide: 'AUTH_PROVIDER',
-      useFactory: (jwtService: JwtService, prisma: PrismaService, configService: ConfigService) => {
-        return new JwtAuthProvider(prisma, jwtService, {
-          jwtSecret: configService.get('JWT_SECRET'),
-          jwtExpiresIn: configService.get('JWT_EXPIRES_IN') || '15m',
-          refreshTokenExpiresIn: configService.get('REFRESH_TOKEN_EXPIRES_IN') || '7d',
-        });
-      },
-      inject: [JwtService, PrismaService, ConfigService],
-    },
+    AccountService,
+    JwtTokenService,
+    BcryptService,
+    TenantService,
     JwtStrategy,
+    UserService
   ],
   exports: [AuthService],
 })
-export class AuthModule {}
+export class AuthModule { }

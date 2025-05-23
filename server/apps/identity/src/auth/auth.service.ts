@@ -1,94 +1,138 @@
-import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
-import { PrismaService } from '@app/prisma';
-import { AuthProvider } from './interfaces/auth-provider.interface';
-import { LoginDto } from './dto/login.dto';
-import { RegisterDto } from './dto/register.dto';
-import * as bcrypt from 'bcrypt';
+import { BadRequestException, Injectable } from "@nestjs/common";
+
+import { isEmail } from "class-validator";
+import { SLUG_REGEX } from "@app/constants";
+import { compare } from "bcrypt";
+
+import { formatName, generatePointSlug, generateSlug } from "@app/utils";
+import { UserService } from "../user/user.service";
+import { LoginDto, RegisterDto } from "./dto";
+import { IAuthResult } from "./interfaces";
+import { TenantService, JwtTokenService, BcryptService, AccountService } from "./services";
+import { PrismaService } from "@app/prisma";
+
+
+
 
 @Injectable()
 export class AuthService {
-  constructor(
-    @Inject('AUTH_PROVIDER') private authProvider: AuthProvider,
-    private prisma: PrismaService,
-  ) {}
 
-  async login(loginDto: LoginDto) {
-    const user = await this.authProvider.validateUser(
-      loginDto.email,
-      loginDto.password,
-    );
-    return this.authProvider.login(user);
-  }
+    constructor(
+        private readonly accountService: AccountService,
+        private readonly userService: UserService,
+        private readonly tenantService: TenantService,
+        private readonly jwtTokenService: JwtTokenService,
+        private readonly bcryptService: BcryptService,
+        private readonly prismaService: PrismaService
+    ) { }
 
-  async register(registerDto: RegisterDto) {
-    // Kiểm tra tenant tồn tại
-    const tenant = await this.prisma.tenant.findUnique({
-      where: { id: registerDto.tenantId },
-    });
 
-    if (!tenant) {
-      throw new UnauthorizedException('Tenant không tồn tại');
+    async login(dto: LoginDto, domain?: string): Promise<IAuthResult
+    > {
+        const { emailOrUsername, password } = dto;
+        const account = await this.getAccountByEmailOrUsername(emailOrUsername);
+
+        if (!account) {
+            throw new BadRequestException('Invalid credentials');
+        }
+
+        const isMatchPassword = await compare(password, account.passwordHash);
+
+        if (!isMatchPassword) {
+            throw new BadRequestException('Invalid credentials');
+        }
+
+        const accessToken = await this.jwtTokenService.generateAccessToken(account);
+        const refreshToken = await this.jwtTokenService.generateRefreshToken(account);
+
+        return {
+            accessToken,
+            refreshToken,
+            user: account.user
+        };
     }
 
-    // Kiểm tra email đã tồn tại trong tenant
-    const existingAccount = await this.prisma.account.findUnique({
-      where: {
-        tenantId_email: {
-          tenantId: registerDto.tenantId,
-          email: registerDto.email,
-        },
-      },
-    });
+    async register(dto: RegisterDto, domain?: string) {
+        const { email, password, name } = dto;
+        const isEmailExists = await this.checkEmailExists(email);
 
-    if (existingAccount) {
-      throw new UnauthorizedException('Email đã tồn tại trong tenant này');
+        if (isEmailExists) {
+            throw new BadRequestException('Email already exists');
+        }
+
+        const formattedName = formatName(name);
+        const passwordHash = await this.bcryptService.hash(password);
+        const username = await this.generateUsername(formattedName);
+
+
+
+        const user = await this.userService.createUser({
+            name,
+        });
+
+        const account = await this.accountService.create({
+            email,
+            passwordHash,
+            username,
+            user: {
+                connect: {
+                    id: user.id,
+                },
+            },
+        });
+
+        const tenant = await this.tenantService.create({
+            name: formattedName,
+            slug: generateSlug(formattedName),
+            owner: {
+                connect: {
+                    id: account.id,
+                },
+            },
+        });
+
     }
 
-    // Tạo user mới
-    const hashedPassword = await bcrypt.hash(registerDto.password, 10);
-    
-    // Tạo user và account trong một transaction
-    const result = await this.prisma.$transaction(async (tx) => {
-      const user = await tx.user.create({
-        data: {
-          email: registerDto.email,
-          password: hashedPassword, // Lưu ý: Trong thực tế, không nên lưu password ở bảng User
-          name: registerDto.name,
-        },
-      });
+    private async getAccountByEmailOrUsername(emailOrUsername: string) {
+        if (emailOrUsername.includes('@')) {
+            if (!isEmail(emailOrUsername)) {
+                throw new BadRequestException('Invalid email');
+            }
 
-      const account = await tx.account.create({
-        data: {
-          userId: user.id,
-          tenantId: registerDto.tenantId,
-          provider: 'local',
-          email: registerDto.email,
-          passwordHash: hashedPassword,
-        },
-      });
+            return this.accountService.findOneByEmail(emailOrUsername);
+        }
 
-      return { user, account };
-    });
+        if (
+            emailOrUsername.length < 3 ||
+            emailOrUsername.length > 106 ||
+            !SLUG_REGEX.test(emailOrUsername)
+        ) {
+            throw new BadRequestException('Invalid username');
+        }
 
-    // Login sau khi đăng ký
-    return this.authProvider.login({
-      id: result.account.id,
-      userId: result.user.id,
-      email: result.user.email,
-      tenantId: registerDto.tenantId,
-      role: result.user.role,
-    });
-  }
+        return this.accountService.findOneByUsername(emailOrUsername);
+    }
 
-  async refreshToken(token: string) {
-    return this.authProvider.refreshToken(token);
-  }
+    private async checkEmailExists(email: string) {
+        const count = await this.accountService.count({
+            email
+        });
 
-  async logout(token: string) {
-    return this.authProvider.revokeToken(token);
-  }
+        return count > 0;
+    }
 
-  async validateToken(token: string) {
-    return this.authProvider.verifyToken(token);
-  }
+    private async generateUsername(name: string): Promise<string> {
+        const pointSlug = generatePointSlug(name);
+        const count = await this.accountService.count({
+            username: {
+                startsWith: pointSlug,
+            },
+        });
+
+        if (count > 0) {
+            return `${pointSlug}${count}`;
+        }
+
+        return pointSlug;
+    }
 }

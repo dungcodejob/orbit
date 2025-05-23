@@ -1,0 +1,86 @@
+version: '3.8'
+
+services:
+  api-gateway:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: api-gateway
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - IDENTITY_SERVICE_HOST=identity-service
+      - IDENTITY_SERVICE_PORT=3001
+      - PRODUCT_SERVICE_HOST=product-service
+      - PRODUCT_SERVICE_PORT=3002
+      - ORDER_SERVICE_HOST=order-service
+      - ORDER_SERVICE_PORT=3003
+    depends_on:
+      - identity-service
+      - product-service
+      - order-service
+    networks:
+      - microservice-network
+
+  identity-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: identity-service
+    environment:
+      - NODE_ENV=development
+      - PORT=3001
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/identity_db?schema=public
+    depends_on:
+      - postgres
+    networks:
+      - microservice-network
+
+  product-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: product-service
+    environment:
+      - NODE_ENV=development
+      - PORT=3002
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/product_db?schema=public
+    depends_on:
+      - postgres
+    networks:
+      - microservice-network
+
+  order-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: order-service
+    environment:
+      - NODE_ENV=development
+      - PORT=3003
+      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/order_db?schema=public
+    depends_on:
+      - postgres
+    networks:
+      - microservice-network
+
+  postgres:
+    image: postgres:14-alpine
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
+    ports:
+      - "5432:5432"
+    networks:
+      - microservice-network
+
+networks:
+  microservice-network:
+    driver: bridge
+
+volumes:
+  postgres-data:

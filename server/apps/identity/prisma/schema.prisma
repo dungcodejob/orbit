@@ -10,9 +10,7 @@ datasource db {
 
 model User {
   id        String   @id @default(uuid())
-  email     String   @unique
-  password  String
-  name      String?
+  name      String
   role      Role     @default(USER)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -27,21 +25,32 @@ enum Role {
 
 model Account {
   id            String   @id @default(uuid())
-  userId        String   @unique
-  tenantId      String   
-  provider      String
-  providerId    String?  // nullable nếu là local
+
+  // provider      String
+  // providerId    String?  // nullable nếu là local
+  username      String   @unique
   email         String   @unique
+  refreshToken  String?
+
+  // password
   passwordHash  String
+  version   Int      @default(0)
+  passwordUpdatedAt DateTime @default(now())
+
   isActive      Boolean  @default(true)
   lastLoginAt   DateTime?
   createdAt     DateTime @default(now())
 
-  refreshToken  String?
+
+
+  userId        String   @unique
+  tenantId      String?   
 
   user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  tenant        Tenant   @relation("TenantAccounts", fields: [tenantId], references: [id], onDelete: Cascade)
+  tenant        Tenant?  @relation("TenantAccounts", fields: [tenantId], references: [id], onDelete: Cascade)
   tenantOwner   Tenant?  @relation("TenantOwner")
+
+         
 
   // @@unique([tenantId, email])
   @@index([tenantId])

@@ -25,6 +25,8 @@ export interface TokenResponse {
 }
 
 export interface AuthProvider {
+
+  
   validateUser(email: string, password: string): Promise<any>;
   login(user: any): Promise<TokenResponse>;
   refreshToken(token: string): Promise<TokenResponse>;

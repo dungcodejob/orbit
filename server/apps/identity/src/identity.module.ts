@@ -1,18 +1,19 @@
 import { Module } from '@nestjs/common';
-import { IdentityController } from './identity.controller';
-import { IdentityService } from './identity.service';
 import { PrismaService } from '@app/prisma';
 import { ConfigModule } from '@nestjs/config';
-import { authConfig } from '../configs/auth.config';
+
+import { appConfig, jwtConfig } from '../configs';
+import { AuthModule } from './auth/auth.module';
 
 
 @Module({
   imports: [ConfigModule.forRoot({
     isGlobal: true,
     envFilePath: `./${process.env.NODE_ENV}.env`,
-    load: [authConfig],
-  }),],
-  controllers: [IdentityController],
-  providers: [IdentityService, PrismaService],
+    load: [jwtConfig, appConfig],
+  }),
+    AuthModule],
+  controllers: [],
+  providers: [PrismaService],
 })
 export class IdentityModule { }

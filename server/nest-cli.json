@@ -1,14 +1,14 @@
 {
   "$schema": "https://json.schemastore.org/nest-cli",
   "collection": "@nestjs/schematics",
-  "sourceRoot": "apps/orbit-server/src",
+  "sourceRoot": "apps/api-gateway/src",
   "compilerOptions": {
     "deleteOutDir": true,
     "webpack": true,
-    "tsConfigPath": "apps/orbit-server/tsconfig.app.json"
+    "tsConfigPath": "apps/api-gateway/tsconfig.app.json"
   },
   "monorepo": true,
-  "root": "apps/orbit-server",
+  "root": "apps/api-gateway",
   "projects": {
     "api-gateway": {
       "type": "application",
@@ -28,15 +28,6 @@
         "tsConfigPath": "libs/constants/tsconfig.lib.json"
       }
     },
-    "decorator": {
-      "type": "library",
-      "root": "libs/decorator",
-      "entryFile": "index",
-      "sourceRoot": "libs/decorator/src",
-      "compilerOptions": {
-        "tsConfigPath": "libs/decorator/tsconfig.lib.json"
-      }
-    },
     "decorators": {
       "type": "library",
       "root": "libs/decorators",
@@ -53,15 +44,6 @@
       "sourceRoot": "apps/identity/src",
       "compilerOptions": {
         "tsConfigPath": "apps/identity/tsconfig.app.json"
-      }
-    },
-    "orbit-server": {
-      "type": "application",
-      "root": "apps/orbit-server",
-      "entryFile": "main",
-      "sourceRoot": "apps/orbit-server/src",
-      "compilerOptions": {
-        "tsConfigPath": "apps/orbit-server/tsconfig.app.json"
       }
     },
     "order": {
