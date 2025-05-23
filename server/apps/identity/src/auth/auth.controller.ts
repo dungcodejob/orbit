@@ -4,20 +4,31 @@ import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { Public } from '@app/decorators';
+import { MessagePattern } from '@nestjs/microservices';
+import { AUTH_MESSAGE_PATTERN } from '@app/constants';
 
-@Controller('auth')
+@Controller()
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Post('login')
-  async login(@Body() loginDto: LoginDto) {
-    return this.authService.login(loginDto);
-  }
+
+  // async login(@Body() loginDto: LoginDto) {
+  //   return this.authService.login(loginDto);
+  // }
+
 
   @Public()
-  @Post('register')
-  async register(@Body() registerDto: RegisterDto) {
-    return this.authService.register(registerDto);
+  @MessagePattern(AUTH_MESSAGE_PATTERN.REGISTER)
+  async register(registerDto: RegisterDto) {
+    console.log("body",registerDto);
+    try {
+      return this.authService.register(registerDto);
+    }
+    catch (error) {
+      console.log(error);
+      return error;
+    }
+    
   }
 
   // @Post('refresh')

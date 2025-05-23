@@ -10,6 +10,7 @@ import { LoginDto, RegisterDto } from "./dto";
 import { IAuthResult } from "./interfaces";
 import { TenantService, JwtTokenService, BcryptService, AccountService } from "./services";
 import { PrismaService } from "@app/prisma";
+import { RpcException } from "@nestjs/microservices";
 
 
 
@@ -33,13 +34,21 @@ export class AuthService {
         const account = await this.getAccountByEmailOrUsername(emailOrUsername);
 
         if (!account) {
-            throw new BadRequestException('Invalid credentials');
+            // throw new BadRequestException('Invalid credentials');
+            throw new RpcException({
+                code: 400,
+                message: 'Invalid credentials',
+            })
         }
 
         const isMatchPassword = await compare(password, account.passwordHash);
 
         if (!isMatchPassword) {
-            throw new BadRequestException('Invalid credentials');
+            // throw new BadRequestException('Invalid credentials');
+            throw new RpcException({
+                code: 400,
+                message: 'Invalid credentials',
+            })
         }
 
         const accessToken = await this.jwtTokenService.generateAccessToken(account);
@@ -57,7 +66,12 @@ export class AuthService {
         const isEmailExists = await this.checkEmailExists(email);
 
         if (isEmailExists) {
-            throw new BadRequestException('Email already exists');
+            
+            // throw new BadRequestException('Email already exists');
+            throw new RpcException({
+                code: 400,
+                message: 'Email already exists',
+            })
         }
 
         const formattedName = formatName(name);
@@ -96,7 +110,11 @@ export class AuthService {
     private async getAccountByEmailOrUsername(emailOrUsername: string) {
         if (emailOrUsername.includes('@')) {
             if (!isEmail(emailOrUsername)) {
-                throw new BadRequestException('Invalid email');
+                throw new RpcException({
+                    code: 400,
+                    message: 'Invalid email',
+                })
+                // throw new BadRequestException('Invalid email');
             }
 
             return this.accountService.findOneByEmail(emailOrUsername);
@@ -107,7 +125,11 @@ export class AuthService {
             emailOrUsername.length > 106 ||
             !SLUG_REGEX.test(emailOrUsername)
         ) {
-            throw new BadRequestException('Invalid username');
+            throw new RpcException({
+                code: 400,
+                message: 'Invalid username',
+            })
+            // throw new BadRequestException('Invalid username');
         }
 
         return this.accountService.findOneByUsername(emailOrUsername);
