@@ -11,10 +11,11 @@ import { AUTH_MESSAGE_PATTERN } from '@app/constants';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-
-  // async login(@Body() loginDto: LoginDto) {
-  //   return this.authService.login(loginDto);
-  // }
+  @Public()
+  @MessagePattern(AUTH_MESSAGE_PATTERN.LOGIN)
+  async login(@Body() loginDto: LoginDto) {
+    return this.authService.login(loginDto);
+  }
 
 
   @Public()

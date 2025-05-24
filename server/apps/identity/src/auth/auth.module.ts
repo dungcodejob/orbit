@@ -8,14 +8,18 @@ import { AuthService } from './auth.service';
 import { JwtAuthProvider } from './providers/jwt-auth.provider';
 import { JwtStrategy } from './strategies/jwt.strategy';
 import { AccountService, BcryptService, JwtTokenService, TenantService } from './services';
-import { UserService } from '../user/user.service';
+
+import { UserModule } from '../user/user.module';
+import { TenantModule } from '../tenant/tenant.module';
 
 
 @Module({
   imports: [
     PrismaModule,
     PassportModule,
-    JwtModule
+    JwtModule,
+    UserModule,
+    TenantModule
   ],
   controllers: [AuthController],
   providers: [
@@ -23,9 +27,7 @@ import { UserService } from '../user/user.service';
     AccountService,
     JwtTokenService,
     BcryptService,
-    TenantService,
     JwtStrategy,
-    UserService
   ],
   exports: [AuthService],
 })

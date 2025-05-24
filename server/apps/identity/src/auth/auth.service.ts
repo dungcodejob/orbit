@@ -108,6 +108,7 @@ export class AuthService {
     }
 
     private async getAccountByEmailOrUsername(emailOrUsername: string) {
+        console.log("emailOrUsername", emailOrUsername);
         if (emailOrUsername.includes('@')) {
             if (!isEmail(emailOrUsername)) {
                 throw new RpcException({

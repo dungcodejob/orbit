@@ -3,6 +3,7 @@ import { AuthService } from "./auth.service";
 import { RegisterDto } from "./dto/register.dto";
 import { catchError } from "rxjs";
 import { of } from "rxjs";
+import { LoginDto } from "./dto/login.dto";
 
 
 
@@ -11,6 +12,10 @@ import { of } from "rxjs";
 export class AuthController {
     constructor(private readonly authService: AuthService) { }
 
+    @Post('login')
+    login(@Body() loginDto: LoginDto) {
+        return this.authService.login(loginDto.emailOrUsername, loginDto.password);
+    }
 
     @Post('register')
     register(@Body() registerDto: RegisterDto) {
