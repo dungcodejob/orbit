@@ -20,7 +20,7 @@ import { TenantModule } from '../tenant/tenant.module';
     JwtModule,
     UserModule,
     TenantModule
-  ],
+  ],  
   controllers: [AuthController],
   providers: [
     AuthService,

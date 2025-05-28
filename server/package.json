@@ -95,11 +95,10 @@
       "<rootDir>/libs/"
     ],
     "moduleNameMapper": {
-      "^@app/constants(|/.*)$": "<rootDir>/libs/constants/src/$1",
-      "^@app/decorator(|/.*)$": "<rootDir>/libs/decorator/src/$1",
-      "^@app/decorators(|/.*)$": "<rootDir>/libs/decorators/src/$1",
+      "^@app/constants(|/.*)$": "<rootDir>/libs/shared/constants/src/$1",
+      "^@app/decorators(|/.*)$": "<rootDir>/libs/shared/decorators/src/$1",
       "^@app/prisma(|/.*)$": "<rootDir>/libs/prisma/src/$1",
-      "^@app/utils(|/.*)$": "<rootDir>/libs/utils/src/$1"
+      "^@app/utils(|/.*)$": "<rootDir>/libs/shared/utils/src/$1"
     }
   }
 }

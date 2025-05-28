@@ -4,13 +4,14 @@ import { isEmail } from "class-validator";
 import { SLUG_REGEX } from "@app/constants";
 import { compare } from "bcrypt";
 
-import { formatName, generatePointSlug, generateSlug } from "@app/utils";
+import { formatName, generatePointSlug, generateSlug } from "libs/shared/utils/src";
 import { UserService } from "../user/user.service";
 import { LoginDto, RegisterDto } from "./dto";
 import { IAuthResult } from "./interfaces";
 import { TenantService, JwtTokenService, BcryptService, AccountService } from "./services";
 import { PrismaService } from "@app/prisma";
 import { RpcException } from "@nestjs/microservices";
+import { TokenTypeEnum } from "./enums/token-type.enum";
 
 
 
@@ -66,7 +67,7 @@ export class AuthService {
         const isEmailExists = await this.checkEmailExists(email);
 
         if (isEmailExists) {
-            
+
             // throw new BadRequestException('Email already exists');
             throw new RpcException({
                 code: 400,
@@ -105,6 +106,10 @@ export class AuthService {
             },
         });
 
+    }
+
+    async refreshToken(refreshToken: string) {
+        const { id, version, tokenId } = await this.jwtTokenService.verifyToken(refreshToken, TokenTypeEnum.REFRESH);
     }
 
     private async getAccountByEmailOrUsername(emailOrUsername: string) {
@@ -158,4 +163,7 @@ export class AuthService {
 
         return pointSlug;
     }
+
+
+
 }

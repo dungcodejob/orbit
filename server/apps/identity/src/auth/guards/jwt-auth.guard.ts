@@ -5,7 +5,7 @@ import { JwtTokenService } from '../services';
 import { Observable } from 'rxjs';
 import { IS_PUBLIC_KEY } from '@app/decorators';
 import { Request } from 'express';
-import { isNil } from '@app/utils';
+import { isNil } from 'libs/shared/utils/src';
 import { isJWT } from 'class-validator';
 import { TokenTypeEnum } from '../enums/token-type.enum';
 @Injectable()
