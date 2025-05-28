@@ -112,6 +112,10 @@ export class AuthService {
         const { id, version, tokenId } = await this.jwtTokenService.verifyToken(refreshToken, TokenTypeEnum.REFRESH);
     }
 
+    async verifyAccessToken(token: string) {
+        return this.jwtTokenService.verifyToken(token, TokenTypeEnum.ACCESS);
+    }
+
     private async getAccountByEmailOrUsername(emailOrUsername: string) {
         console.log("emailOrUsername", emailOrUsername);
         if (emailOrUsername.includes('@')) {

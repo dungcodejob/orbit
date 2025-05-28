@@ -46,19 +46,24 @@ export class AuthController {
 
   }
 
-  @Post('refresh')
-  async refreshToken(
-    @Req() req: Request,
-    @Res() res: Response,
-    @Origin() origin: string) {
+  // @Post('refresh')
+  // async refreshToken(
+  //   @Req() req: Request,
+  //   @Res() res: Response,
+  //   @Origin() origin: string) {
 
-    const token = this.getRefreshCookie(req);
-    const result = await this._authService.refreshTokenAccess(
-      token,
-      req.headers.origin,
-    );
+  //   const token = this.getRefreshCookie(req);
+  //   const result = await this._authService.refreshTokenAccess(
+  //     token,
+  //     req.headers.origin,
+  //   );
 
-    return this.authService.refreshToken(refreshTokenDto.refreshToken);
+  //   return this.authService.refreshToken(refreshTokenDto.refreshToken);
+  // }
+
+  @MessagePattern(AUTH_MESSAGE_PATTERN.VERIFY_TOKEN)
+  async verifyAccessToken(token: string) {
+    return this._authService.verifyAccessToken(token);
   }
 
   // @Post('logout')

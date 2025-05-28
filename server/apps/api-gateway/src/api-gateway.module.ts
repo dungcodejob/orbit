@@ -4,9 +4,20 @@ import { ApiGatewayService } from './api-gateway.service';
 import { ClientsModule, Transport } from '@nestjs/microservices';
 import { SERVICE_TOKENS } from '@app/constants';
 import { AuthModule } from './auth/auth.module';
+import { AccountModule } from './account/account.module';
 
 @Module({
   imports: [
+    ClientsModule.register([
+      {
+        name: SERVICE_TOKENS.IDENTITY,
+        transport: Transport.TCP,
+        options: {
+          host: process.env.IDENTITY_SERVICE_HOST || 'localhost',
+          port: process.env.IDENTITY_SERVICE_PORT ? parseInt(process.env.IDENTITY_SERVICE_PORT) : 3001,
+        },
+      },
+    ]),
     // ClientsModule.register([
     //   {
     //     name: SERVICE_TOKENS.IDENTITY,
@@ -33,7 +44,8 @@ import { AuthModule } from './auth/auth.module';
     //     },
     //   },
     // ]),
-    AuthModule
+    AuthModule,
+    AccountModule
   ],
   controllers: [],
   providers: [ApiGatewayService],
