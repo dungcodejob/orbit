@@ -18,11 +18,29 @@
     "strictBindCallApply": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
+      "@app/constants": [
+        "libs/shared/constants/src"
+      ],
+      "@app/constants/*": [
+        "libs/shared/constants/src/*"
+      ],
+      "@app/decorators": [
+        "libs/shared/decorators/src"
+      ],
+      "@app/decorators/*": [
+        "libs/shared/decorators/src/*"
+      ],
       "@app/prisma": [
         "libs/prisma/src"
       ],
       "@app/prisma/*": [
         "libs/prisma/src/*"
+      ],
+      "@app/utils": [
+        "libs/shared/utils/src"
+      ],
+      "@app/utils/*": [
+        "libs/shared/utils/src/*"
       ]
     }
   }

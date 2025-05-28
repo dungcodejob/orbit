@@ -1,6 +1,6 @@
 generator client {
   provider = "prisma-client-js"
-  output   = "../node_modules/.prisma/client"
+  output   = "../../../node_modules/.prisma/client"
 }
 
 datasource db {
@@ -10,15 +10,59 @@ datasource db {
 
 model User {
   id        String   @id @default(uuid())
-  email     String   @unique
-  password  String
-  name      String?
+  name      String
   role      Role     @default(USER)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  
+  accounts  Account[]
 }
 
 enum Role {
   USER
   ADMIN
+}
+
+model Account {
+  id            String   @id @default(uuid())
+
+  // provider      String
+  // providerId    String?  // nullable nếu là local
+  username      String   @unique
+  email         String   @unique
+  refreshToken  String?
+
+  // password
+  passwordHash  String
+  version   Int      @default(0)
+  passwordUpdatedAt DateTime @default(now())
+
+  isActive      Boolean  @default(true)
+  lastLoginAt   DateTime?
+  createdAt     DateTime @default(now())
+
+
+
+  userId        String   @unique
+  tenantId      String?   
+
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tenant        Tenant?  @relation("TenantAccounts", fields: [tenantId], references: [id], onDelete: Cascade)
+  tenantOwner   Tenant?  @relation("TenantOwner")
+
+         
+
+  // @@unique([tenantId, email])
+  @@index([tenantId])
+}
+
+model Tenant {
+  id         String   @id @default(uuid())
+  name       String
+  slug       String   @unique
+  ownerId    String   @unique
+  createdAt  DateTime @default(now())
+
+  owner      Account  @relation("TenantOwner", fields: [ownerId], references: [id])
+  accounts   Account[] @relation("TenantAccounts")
 }
