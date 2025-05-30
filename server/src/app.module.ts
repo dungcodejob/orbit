@@ -1,14 +1,34 @@
+import { AuthModule } from '@app/auth';
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { IdentityModule } from './identity/identity.module';
-import { ProductModule } from './product/product.module';
-import { OrderModule } from './order/order.module';
-import { GatewayModule } from './gateway/gateway.module';
+import { appConfig, ConfigsModule, cookieConfig, databaseConfig } from '@app/configs';
+import { MikroOrmModule } from '@mikro-orm/nestjs';
+import { CacheModule } from '@nestjs/cache-manager';
+import { ConfigModule } from '@nestjs/config';
 
+console.log('process.env.NODE_ENV', process.env.NODE_ENV);
+console.log('process.env.DATABASE_PASSWORD', process.env.DATABASE_PASSWORD);
 @Module({
-  imports: [GatewayModule, IdentityModule, ProductModule, OrderModule],
-  controllers: [AppController],
-  providers: [AppService],
+  imports: [
+    ConfigModule.forRoot({
+      load: [appConfig,cookieConfig],
+      envFilePath: `./.env.${process.env.NODE_ENV || 'dev'}`,
+      isGlobal: true,
+    }),
+
+    MikroOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: () => databaseConfig,
+    }),
+    // CacheModule.registerAsync({
+    //   isGlobal: true,
+    //   imports: [ConfigModule],
+    //   useClass: CacheConfig,
+    // }),
+    CacheModule.register({
+      isGlobal: true,
+    }),
+    AuthModule,
+  ],
+  providers: [],
 })
-export class AppModule {}
+export class AppModule { }

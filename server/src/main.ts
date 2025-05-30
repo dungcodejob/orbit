@@ -1,54 +1,43 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { MicroserviceOptions, Transport } from '@nestjs/microservices';
-import { Logger } from '@nestjs/common';
+import { AppConfig, appConfig, CookieConfig, cookieConfig } from '@app/configs';
+import * as cookieParser from 'cookie-parser';
 
 async function bootstrap() {
-  const logger = new Logger('Bootstrap');
   const app = await NestFactory.create(AppModule);
-  
-  // Cấu hình CORS cho API Gateway
-  app.enableCors({
-    origin: true,
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
-    credentials: true,
-  });
-  
-  // Cấu hình global prefix cho API
-  app.setGlobalPrefix('api');
-  
-  // Connect to microservices
-  app.connectMicroservice<MicroserviceOptions>({
-    transport: Transport.TCP,
-    options: {
-      host: '0.0.0.0',
-      port: 3001,
-    },
-  });
+  const appConfigResult = app.get<AppConfig>(appConfig.KEY);
+  const cookieConfigResult = app.get<CookieConfig>(cookieConfig.KEY);
+  const port = appConfigResult.port;
+  const domain = appConfigResult.domain;
+  const cookieSecret = cookieConfigResult.secret;
 
-  app.connectMicroservice<MicroserviceOptions>({
-    transport: Transport.TCP,
-    options: {
-      host: '0.0.0.0',
-      port: 3002,
-    },
-  });
+  app.enableCors({ credentials: true, origin: appConfigResult.client });
+  app.use(cookieParser(cookieSecret));
+  app.enableShutdownHooks();
+  // app.useGlobalPipes(
+  //   new ValidationPipe({
+  //     exceptionFactory: (errors) => {
+  //       const result = errors.map((error) => ({
+  //         property: error.property,
+  //         constraints: error.constraints,
+  //       }));
+  //       return new BadRequestException(result);
+  //     },
+  //     stopAtFirstError: true,
+  //   }),
+  // );
+  // app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
+  const globalPrefix = 'api';
+  app.setGlobalPrefix(globalPrefix);
 
-  app.connectMicroservice<MicroserviceOptions>({
-    transport: Transport.TCP,
-    options: {
-      host: '0.0.0.0',
-      port: 3003,
-    },
-  });
-
-  // Start all microservices
-  await app.startAllMicroservices();
-  logger.log('Tất cả microservices đã được khởi động');
-  
-  // Start HTTP application
-  const port = process.env.PORT ?? 3000;
   await app.listen(port);
-  logger.log(`API Gateway đang chạy trên cổng ${port}`);
+
+  console.log(`Server in ${process.env.NODE_ENV} mode`);
+  console.log(`Server is listening on :${port}/${globalPrefix}`);
+  console.log(`Swagger: ${domain}/${globalPrefix}/docs`);
 }
-bootstrap();
+
+bootstrap().catch((err) => {
+  console.error('Error during bootstrap:', err);
+  process.exit(1);
+});
