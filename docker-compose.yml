@@ -1,86 +1,40 @@
 version: '3.8'
-
 services:
-  api-gateway:
-    build:
-      context: ./server
-      dockerfile: Dockerfile
-      target: api-gateway
-    ports:
-      - "3000:3000"
+  db:
+    image: postgres:15
+    container_name: postgres-db
+    restart: always
     environment:
-      - NODE_ENV=development
-      - IDENTITY_SERVICE_HOST=identity-service
-      - IDENTITY_SERVICE_PORT=3001
-      - PRODUCT_SERVICE_HOST=product-service
-      - PRODUCT_SERVICE_PORT=3002
-      - ORDER_SERVICE_HOST=order-service
-      - ORDER_SERVICE_PORT=3003
-    depends_on:
-      - identity-service
-      - product-service
-      - order-service
-    networks:
-      - microservice-network
-
-  identity-service:
-    build:
-      context: ./server
-      dockerfile: Dockerfile
-      target: identity-service
-    environment:
-      - NODE_ENV=development
-      - PORT=3001
-      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/identity_db?schema=public
-    depends_on:
-      - postgres
-    networks:
-      - microservice-network
-
-  product-service:
-    build:
-      context: ./server
-      dockerfile: Dockerfile
-      target: product-service
-    environment:
-      - NODE_ENV=development
-      - PORT=3002
-      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/product_db?schema=public
-    depends_on:
-      - postgres
-    networks:
-      - microservice-network
-
-  order-service:
-    build:
-      context: ./server
-      dockerfile: Dockerfile
-      target: order-service
-    environment:
-      - NODE_ENV=development
-      - PORT=3003
-      - DATABASE_URL=postgresql://postgres:postgres@postgres:5432/order_db?schema=public
-    depends_on:
-      - postgres
-    networks:
-      - microservice-network
-
-  postgres:
-    image: postgres:14-alpine
-    environment:
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_USER=postgres
-    volumes:
-      - postgres-data:/var/lib/postgresql/data
-      - ./server/init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Dungcool102608@
+      POSTGRES_DB: orbit
     ports:
       - "5432:5432"
-    networks:
-      - microservice-network
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
 
-networks:
-  microservice-network:
-    driver: bridge
+  server:
+    build:
+      context: ./server
+    container_name: nest-app
+    restart: always
+    env_file:
+      - ./server/.env.dev
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    command: ["sh", "./migration.sh"]
+
+  client:
+    build:
+      context: ./client
+    container_name: orbit-client
+    restart: always
+    ports:
+      - "4200:80"
+    depends_on:
+      - server
 
 volumes:
-  postgres-data:
+  postgres_data:

@@ -1,54 +1,23 @@
-# Base stage cho dependencies
-FROM node:18-alpine AS deps
+# Stage 1: Build
+FROM node:20-alpine AS builder
 WORKDIR /app
 COPY package*.json ./
-RUN npm ci
-
-# Build stage
-FROM node:18-alpine AS builder
-WORKDIR /app
-COPY --from=deps /app/node_modules ./node_modules
+RUN npm install --legacy-peer-deps
 COPY . .
-RUN npm run build:all
+RUN npm run build
 
-# API Gateway stage
-FROM node:18-alpine AS api-gateway
+# Stage 2: Production
+FROM node:20-alpine
 WORKDIR /app
-COPY --from=builder /app/dist/apps/api-gateway ./dist
-COPY --from=builder /app/node_modules ./node_modules
-COPY package*.json ./
+COPY --from=builder /app/package*.json ./
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/.env* ./
+COPY --from=builder /app/migration.sh ./migration.sh
+
+
+# Grant permission
+RUN chmod +x ./migration.sh
+
+RUN npm install --only=production --legacy-peer-deps
 EXPOSE 3000
-CMD ["node", "dist/main.js"]
-
-# Identity Service stage
-FROM node:18-alpine AS identity-service
-WORKDIR /app
-COPY --from=builder /app/dist/apps/identity ./dist
-COPY --from=builder /app/node_modules ./node_modules
-COPY package*.json ./
-COPY --from=builder /app/apps/identity/prisma ./prisma
-RUN npx prisma generate
-EXPOSE 3001
-CMD ["node", "dist/main.js"]
-
-# Product Service stage
-FROM node:18-alpine AS product-service
-WORKDIR /app
-COPY --from=builder /app/dist/apps/product ./dist
-COPY --from=builder /app/node_modules ./node_modules
-COPY package*.json ./
-COPY --from=builder /app/apps/product/prisma ./prisma
-RUN npx prisma generate
-EXPOSE 3002
-CMD ["node", "dist/main.js"]
-
-# Order Service stage
-FROM node:18-alpine AS order-service
-WORKDIR /app
-COPY --from=builder /app/dist/apps/order ./dist
-COPY --from=builder /app/node_modules ./node_modules
-COPY package*.json ./
-COPY --from=builder /app/apps/order/prisma ./prisma
-RUN npx prisma generate
-EXPOSE 3003
-CMD ["node", "dist/main.js"]
+CMD ["sh", "./migration.sh"]
