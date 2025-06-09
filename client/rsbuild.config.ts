@@ -12,6 +12,11 @@ declare global {
 
 export default defineConfig({
   plugins: [pluginReact()],
+  output: {
+    sourceMap: {
+      js: 'source-map',
+    },
+  },
   source: {
     tsconfigPath: './tsconfig.json',
   },

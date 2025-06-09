@@ -10,62 +10,69 @@
     "sourceMap": true,
     "outDir": "./dist",
     "baseUrl": "./",
+    "paths": {
+      "@app/constants": [
+        "src/shared/constants"
+      ],
+      "@app/constants/*": [
+        "src/shared/constants/*"
+      ],
+      "@app/decorators": [
+        "src/shared/decorators"
+      ],
+      "@app/decorators/*": [
+        "src/shared/decorators/*"
+      ],
+      "@app/interfaces": [
+        "src/shared/interfaces"
+      ],
+      "@app/interfaces/*": [
+        "src/shared/interfaces/*"
+      ],
+      "@app/entities": [
+        "src/shared/entities"
+      ],
+      "@app/entities/*": [
+        "src/shared/entities/*"
+      ],
+      "@app/utils": [
+        "src/shared/utils"
+      ],
+      "@app/utils/*": [
+        "src/shared/utils/*"
+      ],
+      "@app/account": [
+        "src/account"
+      ],
+      "@app/account/*": [
+        "src/account/*"
+      ],
+      "@app/tenant": [
+        "src/tenant"
+      ],
+      "@app/tenant/*": [
+        "src/tenant/*"
+      ],
+      "@app/auth": [
+        "src/auth"
+      ],
+      "@app/auth/*": [
+        "src/auth/*"
+      ],
+      "@app/configs": [
+        "src/configs"
+      ],
+      "@app/configs/*": [
+        "src/configs/*"
+      ]
+
+    },
     "incremental": true,
     "skipLibCheck": true,
     "strictNullChecks": true,
     "forceConsistentCasingInFileNames": true,
     "noImplicitAny": false,
     "strictBindCallApply": false,
-    "noFallthroughCasesInSwitch": false,
-    "paths": {
-      "@app/account": [
-        "libs/account/src"
-      ],
-      "@app/account/*": [
-        "libs/account/src/*"
-      ],
-      "@app/auth": [
-        "libs/auth/src"
-      ],
-      "@app/auth/*": [
-        "libs/auth/src/*"
-      ],
-      "@app/configs": [
-        "libs/configs/src"
-      ],
-      "@app/configs/*": [
-        "libs/configs/src/*"
-      ],
-      "@app/shared/constants": [
-        "libs/shared/constants/src"
-      ],
-      "@app/shared/constants/*": [
-        "libs/shared/constants/src/*"
-      ],
-      "@app/shared/decorators": [
-        "libs/shared/decorators/src"
-      ],
-      "@app/shared/decorators/*": [
-        "libs/shared/decorators/src/*"
-      ],
-      "@app/shared/entities": [
-        "libs/shared/entities/src"
-      ],
-      "@app/shared/entities/*": [
-        "libs/shared/entities/src/*"
-      ],
-      "@app/shared/utils": [
-        "libs/shared/utils/src"
-      ],
-      "@app/shared/utils/*": [
-        "libs/shared/utils/src/*"
-      ],
-      "@app/tenant": [
-        "libs/tenant/src"
-      ],
-      "@app/tenant/*": [
-        "libs/tenant/src/*"
-      ]
-    }
+    "noFallthroughCasesInSwitch": false
   }
 }

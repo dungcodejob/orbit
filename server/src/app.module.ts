@@ -1,8 +1,8 @@
 import { AuthModule } from '@app/auth';
-import { Module } from '@nestjs/common';
-import { appConfig, ConfigsModule, cookieConfig, databaseConfig } from '@app/configs';
+import { appConfig, cookieConfig, databaseConfig } from '@app/configs';
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { CacheModule } from '@nestjs/cache-manager';
+import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 
 console.log('process.env.NODE_ENV', process.env.NODE_ENV);
