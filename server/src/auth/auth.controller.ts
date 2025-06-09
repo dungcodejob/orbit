@@ -15,6 +15,7 @@ import {
 import { Request, Response } from 'express';
 
 import { InjectJwtConfig, JwtConfig } from '@app/configs';
+import { ThrottlerGuard } from '@nestjs/throttler';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
@@ -22,6 +23,7 @@ import { JwtAuthGuard } from './guards/jwt-auth.guard';
 import { RefreshAccessDto } from './interfaces';
 
 @Controller('auth')
+@UseGuards(ThrottlerGuard)
 export class AuthController {
   private readonly _cookiePath = '/api/auth';
   private readonly _isTesting: boolean;
