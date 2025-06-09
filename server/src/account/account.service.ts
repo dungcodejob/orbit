@@ -4,7 +4,7 @@ import { isNil } from '@app/utils';
 import {
   EntityManager,
   EntityRepository,
-  FilterQuery
+  FilterQuery,
 } from '@mikro-orm/postgresql';
 import {
   BadRequestException,

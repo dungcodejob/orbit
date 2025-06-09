@@ -5,6 +5,7 @@ import {
   Body,
   Controller,
   Get,
+  HttpStatus,
   Post,
   Req,
   Res,
@@ -18,7 +19,7 @@ import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
-import { BacklistService } from './services/backlist.service';
+import { RefreshAccessDto } from './interfaces';
 
 @Controller('auth')
 export class AuthController {
@@ -27,9 +28,9 @@ export class AuthController {
   private readonly _refreshTime: number;
 
   constructor(
-    @InjectJwtConfig() private readonly _jwtConfig: JwtConfig,
+    @InjectJwtConfig()
+    private readonly _jwtConfig: JwtConfig,
     private readonly _authService: AuthService,
-    private readonly _backlistService: BacklistService,
   ) {
     this._refreshTime = _jwtConfig.refresh.time;
     this._isTesting = true;
@@ -43,7 +44,9 @@ export class AuthController {
     @Body() loginDto: LoginDto,
   ) {
     const result = await this._authService.login(loginDto, origin);
-    this.saveRefreshCookie(res, result.refreshToken).status(200).json(result);
+    this.saveRefreshCookie(res, result.refreshToken)
+      .status(HttpStatus.OK)
+      .json(result);
   }
 
   @Public()
@@ -62,17 +65,27 @@ export class AuthController {
   async refreshToken(
     @Req() req: Request,
     @Res() res: Response,
+    @Body() refreshAccessDto: RefreshAccessDto,
     @Origin() origin: string,
   ) {
-    const token = this.getRefreshCookie(req);
+    const token = this.getRefreshFromCookieOrBody(req, refreshAccessDto);
     const result = await this._authService.refreshToken(token, origin);
     this.saveRefreshCookie(res, result.refreshToken).status(200).json(result);
   }
 
-  // @Post('logout')
-  // async logout(@Body() refreshTokenDto: RefreshTokenDto) {
-  //   return this.authService.logout(refreshTokenDto.refreshToken);
-  // }
+  @Post('logout')
+  async logout(
+    @Req() req: Request,
+    @Res() res: Response,
+    @Body() refreshAccessDto: RefreshAccessDto,
+  ) {
+    const token = this.getRefreshFromCookieOrBody(req, refreshAccessDto);
+    await this._authService.logout(token);
+
+    this.clearCookies(res)
+      .header('Content-Type', 'application/json')
+      .status(HttpStatus.OK);
+  }
 
   @UseGuards(JwtAuthGuard)
   @Get('profile')
@@ -90,9 +103,18 @@ export class AuthController {
     });
   }
 
-  private getRefreshCookie(req: Request): string {
+  private clearCookies(res: Response): Response {
+    return res.clearCookie(COOKIE_NAMES.REFRESH_TOKEN, {
+      path: this._cookiePath,
+    });
+  }
+
+  private getRefreshFromCookieOrBody(
+    req: Request,
+    body: RefreshAccessDto,
+  ): string {
     const token: string | undefined =
-      req.signedCookies[COOKIE_NAMES.REFRESH_TOKEN];
+      req.signedCookies[COOKIE_NAMES.REFRESH_TOKEN] ?? body.refreshToken;
     if (isNil(token)) {
       throw new UnauthorizedException();
     }

@@ -1,8 +1,5 @@
 import { User } from '@app/entities';
-import {
-  EntityManager,
-  EntityRepository
-} from '@mikro-orm/postgresql';
+import { EntityManager, EntityRepository } from '@mikro-orm/postgresql';
 import { Injectable } from '@nestjs/common';
 
 type UserCreateInput = ConstructorParameters<typeof User>[0];

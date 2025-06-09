@@ -1,11 +1,8 @@
-
 import { Tenant } from '@app/entities';
 import { EntityManager, EntityRepository } from '@mikro-orm/postgresql';
 import { Injectable } from '@nestjs/common';
 
-
 type TenantCreateInput = ConstructorParameters<typeof Tenant>[0];
-
 
 @Injectable()
 export class TenantService {
@@ -22,5 +19,4 @@ export class TenantService {
   flush(): Promise<void> {
     return this.em.flush();
   }
-
 }

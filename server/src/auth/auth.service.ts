@@ -84,7 +84,7 @@ export class AuthService {
       owner: account,
     });
 
-    this.em.flush();
+    await this.em.flush();
   }
 
   async refreshToken(
@@ -119,6 +119,15 @@ export class AuthService {
     );
 
     return { user: account.user, accessToken, refreshToken: newRefreshToken };
+  }
+
+  async logout(accessToken: string) {
+    const { id, tokenId, exp } = await this.jwtTokenService.verifyToken(
+      accessToken,
+      TokenTypeEnum.REFRESH,
+    );
+
+    await this.backlistService.addTokenBlacklist(id, tokenId, exp);
   }
 
   private async getAccountByEmailOrUsername(emailOrUsername: string) {

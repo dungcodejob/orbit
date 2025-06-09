@@ -10,7 +10,7 @@ console.log('process.env.DATABASE_PASSWORD', process.env.DATABASE_PASSWORD);
 @Module({
   imports: [
     ConfigModule.forRoot({
-      load: [appConfig,cookieConfig],
+      load: [appConfig, cookieConfig],
       envFilePath: `./.env.${process.env.NODE_ENV || 'dev'}`,
       isGlobal: true,
     }),
@@ -31,4 +31,4 @@ console.log('process.env.DATABASE_PASSWORD', process.env.DATABASE_PASSWORD);
   ],
   providers: [],
 })
-export class AppModule { }
+export class AppModule {}

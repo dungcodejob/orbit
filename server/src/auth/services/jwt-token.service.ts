@@ -11,9 +11,13 @@ import {
   IRefreshToken,
 } from '../interfaces';
 
-import { AppConfig, InjectAppConfig, InjectJwtConfig, JwtConfig } from '@app/configs';
+import {
+  AppConfig,
+  InjectAppConfig,
+  InjectJwtConfig,
+  JwtConfig,
+} from '@app/configs';
 import { Account } from '@app/entities';
-
 
 @Injectable()
 export class JwtTokenService {
